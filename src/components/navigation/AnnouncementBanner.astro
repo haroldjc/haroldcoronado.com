@@ -1,9 +1,8 @@
 ---
+import type { Announcement } from '../../lib/announcement';
 import TextLink from '../ui/TextLink.astro';
 
-type Props = {
-	message: string;
-	link?: { label: string; href: string; external?: boolean };
+type Props = Pick<Announcement, 'message' | 'link'> & {
 	class?: string;
 };
 
