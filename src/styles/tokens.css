@@ -210,3 +210,31 @@
   --color-tonal-6: var(--color-neutral-900);
   color-scheme: dark;
 }
+
+[data-theme="ink"] {
+  --color-bg-surface: var(--color-neutral-900);
+  --color-bg-subtle: var(--color-neutral-850);
+  --color-bg-field: var(--color-neutral-800);
+  --color-bg-inverse: var(--color-neutral-100);
+  --color-bg-inverse-hover: var(--color-neutral-300);
+  --color-bg-disabled: var(--color-neutral-700);
+  --color-text-primary: var(--color-neutral-100);
+  --color-text-secondary: var(--color-neutral-400);
+  --color-text-accent: var(--color-red-500);
+  --color-text-on-inverse: var(--color-neutral-900);
+  --color-text-disabled: var(--color-neutral-600);
+  --color-text-error: var(--color-red-300);
+  --color-icon-primary: var(--color-neutral-100);
+  --color-icon-on-inverse: var(--color-neutral-900);
+  --color-border-default: var(--color-neutral-100);
+  --color-border-subtle: var(--color-neutral-700);
+  --color-border-focus: var(--color-neutral-100);
+  --color-border-error: var(--color-red-300);
+  --color-tonal-1: var(--color-neutral-850);
+  --color-tonal-2: var(--color-neutral-800);
+  --color-tonal-3: var(--color-neutral-700);
+  --color-tonal-4: var(--color-neutral-600);
+  --color-tonal-5: var(--color-neutral-500);
+  --color-tonal-6: var(--color-neutral-400);
+  color-scheme: dark;
+}

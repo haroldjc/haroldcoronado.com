@@ -24,8 +24,9 @@ import SiteHeader from '../components/navigation/SiteHeader.astro';
 import SiteFooter from '../components/navigation/SiteFooter.astro';
 import LangToggle from '../components/navigation/LangToggle.astro';
 import NavLink from '../components/navigation/NavLink.astro';
+import AnnouncementBanner from '../components/navigation/AnnouncementBanner.astro';
 
-const modes = ['paper', 'red', 'teal', 'plum'] as const;
+const modes = ['paper', 'red', 'teal', 'plum', 'ink'] as const;
 const ramps = ['red', 'teal', 'plum'] as const;
 const rampSteps = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 const neutralSteps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 850, 900];
@@ -365,6 +366,11 @@ const topics = [
 				</div>
 			</div>
 		</section>
+
+		<AnnouncementBanner
+			message="The journal is live — notes on design systems, building with agents, and everything in between."
+			link={{ label: 'read the journal →', href: '#' }}
+		/>
 	</main>
 
 	<SiteFooter links={footerLinks} />

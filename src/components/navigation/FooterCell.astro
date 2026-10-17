@@ -18,9 +18,18 @@ const Element = kind === 'link' && href ? 'a' : 'div';
 	class:list={[
 		'flex flex-col px-margin py-10 text-on-tonal no-underline',
 		kind === 'link' && 'text-title whitespace-nowrap',
+		Element === 'a' && 'transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-tonal-6',
 		kind === 'note' && 'justify-end text-label',
 		className,
 	]}
 >
-	<slot />
+	{
+		kind === 'link' ? (
+			<span class="self-start bg-[linear-gradient(currentColor,currentColor)] bg-[length:100%_2px] bg-[position:0_calc(100%-1px)] bg-no-repeat">
+				<slot />
+			</span>
+		) : (
+			<slot />
+		)
+	}
 </Element>

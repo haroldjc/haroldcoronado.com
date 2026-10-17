@@ -1,0 +1,26 @@
+---
+import TextLink from '../ui/TextLink.astro';
+
+type Props = {
+	message: string;
+	link?: { label: string; href: string; external?: boolean };
+	class?: string;
+};
+
+const { message, link, class: className } = Astro.props;
+---
+
+<aside
+	aria-label="Announcement"
+	data-theme="ink"
+	class:list={['flex h-9 items-center justify-center gap-lg overflow-clip px-margin py-xs text-label text-primary', className]}
+>
+	<p class="min-w-0 truncate">{message}</p>
+	{
+		link && (
+			<TextLink href={link.href} size="small" external={link.external} class="shrink-0">
+				{link.label}
+			</TextLink>
+		)
+	}
+</aside>

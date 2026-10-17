@@ -9,7 +9,7 @@ type Props = typeof hero;
 const { headline, highlight, bio, word } = Astro.props;
 ---
 
-<section data-theme="red" class="grid overflow-hidden pt-3.5">
+<section data-theme="red" class="grid overflow-clip pt-3.5">
 	<div class="relative z-10 xl:col-start-1 xl:row-start-1">
 		<SiteHeader />
 		<div class="wrapper flex flex-col gap-md pt-10 md:pt-[74px]">
@@ -65,24 +65,5 @@ const { headline, highlight, bio, word } = Astro.props;
 				animation-name: hero-unpin;
 			}
 		}
-
-		@supports not (animation-timeline: scroll()) {
-			.hero-pin {
-				translate: 0 var(--hero-scroll, 0px);
-			}
-
-			.hero-unpin {
-				translate: 0 calc(var(--hero-scroll, 0px) * -1);
-			}
-		}
 	}
 </style>
-
-<script>
-	if (!CSS.supports('animation-timeline: scroll()') && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-		const root = document.documentElement;
-		const update = () => root.style.setProperty('--hero-scroll', `${scrollY}px`);
-		addEventListener('scroll', update, { passive: true });
-		update();
-	}
-</script>

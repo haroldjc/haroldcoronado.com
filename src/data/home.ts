@@ -11,7 +11,7 @@ export const skills = {
 		{
 			title: 'design',
 			description: 'Interfaces with a point of view.',
-			tools: ['Figma', 'Design systems', 'Prototyping', 'Typography & layout', 'UX writing'],
+			tools: ['Figma', 'Design systems', 'Prototyping', 'Typography & layout', 'UI + UX'],
 		},
 		{
 			title: 'build',
@@ -73,14 +73,14 @@ export const work = {
 		{
 			company: 'waggl',
 			location: 'remote, USA',
-			role: 'front-end developer',
+			role: 'full-stack developer',
 			years: '2016 — 2021',
 			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
 		},
 		{
 			company: 'tecla labs',
 			location: 'Lima, Perú',
-			role: 'front-end developer',
+			role: 'web developer',
 			years: '2014 — 2017',
 			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
 		},
@@ -111,9 +111,9 @@ export const about = {
 export const contact = {
 	headline: ['let’s build', 'something.'],
 	links: [
-		{ label: 'email ↗', href: '#', external: true },
-		{ label: 'github ↗', href: '#', external: true },
-		{ label: 'linkedin ↗', href: '#', external: true },
+		{ label: 'email ↗', href: 'mailto:hola@haroldcoronado.com', external: false },
+		{ label: 'github ↗', href: 'https://github.com/haroldjc/', external: true },
+		{ label: 'linkedin ↗', href: 'https://www.linkedin.com/in/haroldjc/', external: true },
 		{ label: 'youtube ↗', href: '#', external: true },
 	] as [Link, Link, Link, Link],
 };

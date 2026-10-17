@@ -11,7 +11,7 @@ const { href, current = false, class: className } = Astro.props;
 <a
 	href={href}
 	aria-current={current ? 'page' : undefined}
-	class:list={['text-info whitespace-nowrap text-primary no-underline', current && 'font-bold', className]}
+	class:list={['link-line text-info whitespace-nowrap text-primary no-underline [--rest-size:0px]', current && '[--line-width:100%]', className]}
 >
 	<slot />
 </a>
