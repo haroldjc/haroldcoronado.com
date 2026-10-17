@@ -1,0 +1,35 @@
+---
+import FooterCell from './FooterCell.astro';
+
+type FooterLink = { label: string; href: string; external?: boolean };
+
+type Props = {
+	links: [FooterLink, FooterLink, FooterLink, FooterLink];
+	theme?: 'paper' | 'red' | 'teal' | 'plum';
+	id?: string;
+	class?: string;
+};
+
+const { links, theme = 'plum', id, class: className } = Astro.props;
+const linkTones = ['bg-tonal-1', 'bg-tonal-2', 'bg-tonal-3', 'bg-tonal-4'];
+---
+
+<footer id={id} data-theme={theme} class:list={['grid md:grid-cols-4', className]}>
+	{
+		links.map((link, i) => (
+			<FooterCell href={link.href} external={link.external} class:list={['h-30 md:h-75', linkTones[i]]}>
+				{link.label}
+			</FooterCell>
+		))
+	}
+	<FooterCell kind="note" class="h-40 bg-tonal-5 md:h-75 md:bg-tonal-2">
+		<slot>
+			<p>© 2026</p>
+			<p>Concepto, diseño y desarrollo</p>
+			<p>por Harold Coronado.</p>
+		</slot>
+	</FooterCell>
+	<FooterCell kind="blank" class="hidden bg-tonal-3 md:flex md:h-75" />
+	<FooterCell kind="blank" class="hidden bg-tonal-4 md:flex md:h-75" />
+	<FooterCell kind="blank" class="hidden bg-tonal-5 md:flex md:h-75" />
+</footer>

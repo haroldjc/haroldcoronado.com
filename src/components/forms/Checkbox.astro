@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '../Icon.astro';
+
+type Props = Omit<HTMLAttributes<'input'>, 'class' | 'type'> & {
+	label: string;
+	name: string;
+	class?: string;
+};
+
+const { label, class: className, ...attrs } = Astro.props;
+---
+
+<label class:list={['inline-flex cursor-pointer items-center gap-sm text-body text-primary has-disabled:cursor-not-allowed has-disabled:text-disabled', className]}>
+	<span class="grid shrink-0 place-items-center">
+		<input
+			type="checkbox"
+			class="peer col-start-1 row-start-1 size-6 cursor-[inherit] appearance-none border-2 border-default bg-field checked:bg-inverse enabled:hover:not-checked:bg-subtle disabled:border-subtle disabled:checked:bg-disabled"
+			{...attrs}
+		/>
+		<Icon name="check" size={18} class="pointer-events-none col-start-1 row-start-1 hidden text-on-inverse peer-checked:block" />
+	</span>
+	{label}
+</label>

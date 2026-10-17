@@ -1,0 +1,26 @@
+---
+import TextLink from '../ui/TextLink.astro';
+
+type Props = {
+	label: string;
+	title: string;
+	description: string;
+	link?: { href: string; label: string; external?: boolean };
+	class?: string;
+};
+
+const { label, title, description, link, class: className } = Astro.props;
+---
+
+<article class:list={['flex flex-col items-start gap-sm text-primary', className]}>
+	<p class="text-info">{label}</p>
+	<h3 class="text-heading">{title}</h3>
+	<p class="text-body">{description}</p>
+	{
+		link && (
+			<TextLink href={link.href} size="medium" external={link.external}>
+				{link.label}
+			</TextLink>
+		)
+	}
+</article>

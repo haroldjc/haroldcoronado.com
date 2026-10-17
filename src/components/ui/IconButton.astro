@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '../Icon.astro';
+import type { IconName } from '../icons';
+
+type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
+	icon: IconName;
+	label: string;
+	variant?: 'ghost' | 'outline';
+	class?: string;
+};
+
+const { icon, label, variant = 'ghost', type = 'button', class: className, ...attrs } = Astro.props;
+
+const variants = {
+	ghost: 'bg-surface text-icon enabled:hover:bg-subtle disabled:text-disabled',
+	outline:
+		'border-2 border-default bg-surface text-icon enabled:hover:bg-inverse enabled:hover:text-icon-on-inverse disabled:border-subtle disabled:text-disabled',
+};
+---
+
+<button
+	type={type}
+	aria-label={label}
+	class:list={['inline-flex size-12 shrink-0 items-center justify-center disabled:cursor-not-allowed', variants[variant], className]}
+	{...attrs}
+>
+	<Icon name={icon} />
+</button>

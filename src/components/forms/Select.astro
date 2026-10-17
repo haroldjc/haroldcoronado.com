@@ -1,0 +1,96 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '../Icon.astro';
+import FieldHelper from './FieldHelper.astro';
+
+type Option = { value: string; label: string };
+
+type Props = Omit<HTMLAttributes<'select'>, 'class'> & {
+	label: string;
+	name: string;
+	options: Option[];
+	value?: string;
+	placeholder?: string;
+	helper?: string;
+	error?: string;
+	class?: string;
+};
+
+const { label, name, id = name, options, value, placeholder, helper, error, class: className, ...attrs } = Astro.props;
+const helperId = `${id}-helper`;
+const hasHelper = Boolean(helper || error);
+---
+
+<div class:list={['group flex flex-col gap-xs text-primary has-disabled:text-disabled', className]}>
+	<label for={id} class="text-label">{label}</label>
+	<div class="relative">
+		<select
+			id={id}
+			name={name}
+			aria-invalid={error ? 'true' : undefined}
+			aria-describedby={hasHelper ? helperId : undefined}
+			class="select-control peer h-control w-full cursor-pointer appearance-none border-b-2 border-default bg-field pr-[calc(var(--space-md)+var(--size-icon-md)+var(--space-sm))] pl-md text-body text-primary enabled:has-[option:checked:disabled]:text-secondary aria-invalid:border-error disabled:cursor-not-allowed disabled:border-subtle disabled:bg-disabled disabled:text-disabled"
+			{...attrs}
+		>
+			{
+				placeholder && (
+					<option value="" disabled hidden selected={!value}>
+						{placeholder}
+					</option>
+				)
+			}
+			{
+				options.map((option) => (
+					<option value={option.value} selected={option.value === value}>
+						{option.label}
+					</option>
+				))
+			}
+		</select>
+		<Icon
+			name="chevron-down"
+			class="pointer-events-none absolute top-1/2 right-md -translate-y-1/2 text-icon peer-open:rotate-180 peer-disabled:text-disabled"
+		/>
+	</div>
+	<FieldHelper id={helperId} helper={helper} error={error} />
+</div>
+
+<style is:global>
+	@supports (appearance: base-select) {
+		.select-control,
+		.select-control::picker(select) {
+			appearance: base-select;
+		}
+
+		.select-control {
+			display: flex;
+			align-items: center;
+		}
+
+		.select-control::picker-icon {
+			display: none;
+		}
+
+		.select-control::picker(select) {
+			margin-block-start: var(--space-xs);
+			border: var(--stroke-strong) solid var(--color-border-default);
+			background-color: var(--color-bg-field);
+			color: var(--color-text-primary);
+		}
+
+		.select-control option {
+			padding: 14px var(--space-md);
+		}
+
+		.select-control option::checkmark {
+			display: none;
+		}
+
+		.select-control option:hover,
+		.select-control option:focus-visible {
+			outline: none;
+			background-color: var(--color-bg-inverse);
+			color: var(--color-text-on-inverse);
+		}
+	}
+</style>

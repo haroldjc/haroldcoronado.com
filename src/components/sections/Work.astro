@@ -1,0 +1,42 @@
+---
+import ExperienceRow from '../content/ExperienceRow.astro';
+import ProjectTile from '../content/ProjectTile.astro';
+import SectionName from '../content/SectionName.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { work } from '../../data/home';
+
+type Props = typeof work;
+
+const { title, projects, experienceHeadline, experience, resume } = Astro.props;
+---
+
+<section id="work" data-theme="teal" aria-labelledby="work-title" class="flex flex-col gap-5xl py-section">
+	<div class="wrapper-wide flex flex-col gap-xl md:flex-row md:gap-2xl">
+		<h2
+			id="work-title"
+			class="text-display md:shrink-0 md:rotate-180 md:text-[length:min(17.5vw,301px)] md:leading-[0.74] md:[writing-mode:vertical-rl]"
+		>
+			{title}
+		</h2>
+		<ul role="list" class="grid flex-1 grid-cols-2 gap-x-lg gap-y-xl md:grid-cols-4 md:gap-y-14">
+			{
+				projects.map((project) => (
+					<li>
+						<ProjectTile {...project} />
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="wrapper flex flex-col gap-3xl">
+		<div class="flex flex-col gap-md">
+			<SectionName label="experience" />
+			<h2 class="text-headline">{experienceHeadline}</h2>
+		</div>
+		<div>
+			{experience.map((row) => <ExperienceRow {...row} />)}
+			<TextLink href={resume.href}>{resume.label}</TextLink>
+		</div>
+	</div>
+</section>

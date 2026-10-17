@@ -1,0 +1,14 @@
+---
+type Props = {
+	label: string;
+	as?: 'p' | 'h2' | 'h3';
+	class?: string;
+};
+
+const { label, as: Tag = 'p', class: className } = Astro.props;
+---
+
+<Tag class:list={['flex items-end text-info whitespace-nowrap text-primary', className]}>
+	{label}
+	<span aria-hidden="true" class="h-px w-[50px] shrink-0 bg-(--color-border-default)"></span>
+</Tag>

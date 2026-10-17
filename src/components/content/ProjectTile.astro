@@ -1,0 +1,23 @@
+---
+type Props = {
+	name: string;
+	meta: string;
+	href?: string;
+	class?: string;
+};
+
+const { name, meta, href, class: className } = Astro.props;
+const Element = href ? 'a' : 'div';
+---
+
+<Element href={href} class:list={['group flex flex-col gap-md text-primary no-underline', className]}>
+	<div
+		class="flex aspect-[4/3] items-center justify-center overflow-hidden bg-subtle text-label text-secondary group-hover:bg-inverse group-hover:text-on-inverse"
+	>
+		<slot>client logo</slot>
+	</div>
+	<div class="flex flex-col gap-2xs">
+		<p class="text-info">{name}</p>
+		<p class="text-body">{meta}</p>
+	</div>
+</Element>

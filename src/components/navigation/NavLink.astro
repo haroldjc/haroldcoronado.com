@@ -1,0 +1,17 @@
+---
+type Props = {
+	href: string;
+	current?: boolean;
+	class?: string;
+};
+
+const { href, current = false, class: className } = Astro.props;
+---
+
+<a
+	href={href}
+	aria-current={current ? 'page' : undefined}
+	class:list={['text-info whitespace-nowrap text-primary no-underline', current && 'font-bold', className]}
+>
+	<slot />
+</a>

@@ -1,0 +1,121 @@
+export const hero = {
+	headline: ['I’m Harold', 'I build stuff.'],
+	highlight: 'End to end.',
+	bio: 'Full stack developer and designer with over 15 years of experience building products that work — from prototype and design to deployed apps.',
+	word: 'building',
+};
+
+export const skills = {
+	headline: ['three disciplines.', 'one person.'],
+	pillars: [
+		{
+			title: 'design',
+			description: 'Interfaces with a point of view.',
+			tools: ['Figma', 'Design systems', 'Prototyping', 'Typography & layout', 'UX writing'],
+		},
+		{
+			title: 'build',
+			description: 'From data model to deployed front end.',
+			tools: ['TypeScript', 'React / Next.js', 'Node.js & APIs', 'Databases', 'Cloud & CI/CD'],
+		},
+		{
+			title: 'ai',
+			description: 'Agents in the loop, from first sketch to deploy.',
+			tools: ['Claude Code', 'Coding & review agents', 'MCP & Figma workflows', 'Prompt & context design', 'Automation & evals'],
+		},
+	],
+	processTitle: 'from idea to deploy.',
+	stages: [
+		{ name: 'idea', description: 'Brief, research and constraints.' },
+		{ name: 'prototype', description: 'Flows and interfaces, tested early.' },
+		{ name: 'system', description: 'Tokens and components shared by design and code.' },
+		{ name: 'build', description: 'Typed, tested front end and APIs.' },
+		{ name: 'review', description: 'Tests, accessibility and code review.' },
+		{ name: 'deploy', description: 'CI/CD to production, then measure.' },
+	],
+	lanes: {
+		design: 'design',
+		overlap: 'design systems',
+		development: 'development',
+		agents: 'agents',
+		tasks: ['research', 'ai prototyping', 'figma mcp', 'coding agents', 'review agents', 'ci automation'],
+	},
+};
+
+export const work = {
+	title: 'work',
+	projects: [
+		{ name: 'client one', meta: 'brand + web · 2025' },
+		{ name: 'client two', meta: 'product design · 2024' },
+		{ name: 'client three', meta: 'full-stack build · 2024' },
+		{ name: 'client four', meta: 'design system · 2023' },
+		{ name: 'client five', meta: 'web app · 2023' },
+		{ name: 'client six', meta: 'identity + site · 2022' },
+		{ name: 'client seven', meta: 'prototype · 2022' },
+		{ name: 'odisea del cosmos', meta: 'youtube · ongoing' },
+	],
+	experienceHeadline: 'where i’ve worked.',
+	experience: [
+		{
+			company: 'commence',
+			location: 'remote, USA',
+			role: 'senior product engineer',
+			years: '2025 — now',
+			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
+		},
+		{
+			company: 'perceptyx',
+			location: 'remote, USA',
+			role: 'hubspot developer',
+			years: '2021 — 2025',
+			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
+		},
+		{
+			company: 'waggl',
+			location: 'remote, USA',
+			role: 'front-end developer',
+			years: '2016 — 2021',
+			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
+		},
+		{
+			company: 'tecla labs',
+			location: 'Lima, Perú',
+			role: 'front-end developer',
+			years: '2014 — 2017',
+			description: 'What you owned, who you worked with and one result. Placeholder — swap for the real role.',
+		},
+	],
+	resume: { label: 'full résumé →', href: '#' },
+};
+
+export const about = {
+	headline: ['science, sci-fi', 'and stories.'],
+	note: ['off the clock,', 'on youtube and in print'],
+	intro: 'In my spare time I write, read and create content. Making videos taught me to record, edit and tell a story — and that instinct carries into everything I build.',
+	planets: ['technology', 'design', 'science', 'art'],
+	items: [
+		{
+			label: 'youtube',
+			title: 'odisea del cosmos',
+			description: 'A channel where I explain the science in science fiction media.',
+			link: { label: 'watch the channel →', href: '#', external: true },
+		},
+		{
+			label: 'book · 2027',
+			title: 'a book on collecting',
+			description: 'I’m co-authoring a book on collecting, coming out in 2027. More details coming soon.',
+		},
+	],
+};
+
+export const contact = {
+	headline: ['let’s build', 'something.'],
+	links: [
+		{ label: 'email ↗', href: '#', external: true },
+		{ label: 'github ↗', href: '#', external: true },
+		{ label: 'linkedin ↗', href: '#', external: true },
+		{ label: 'youtube ↗', href: '#', external: true },
+	] as [Link, Link, Link, Link],
+};
+
+type Link = { label: string; href: string; external?: boolean };

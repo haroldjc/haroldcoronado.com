@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import portrait from '../../assets/home/portrait.png';
+import type { hero } from '../../data/home';
+
+type Props = typeof hero;
+
+const { headline, highlight, bio, word } = Astro.props;
+---
+
+<section data-theme="red" class="grid overflow-hidden pt-3.5">
+	<div class="relative z-10 xl:col-start-1 xl:row-start-1">
+		<SiteHeader />
+		<div class="wrapper flex flex-col gap-md pt-10 md:pt-[74px]">
+			<h1 class="text-headline">
+				{headline.map((line) => <span class="block">{line}</span>)}
+				<span class="block text-paper">{highlight}</span>
+			</h1>
+			<p class="max-w-[600px] text-body-lg xl:max-w-[min(600px,calc(49vw-var(--layout-margin)-2rem))]">{bio}</p>
+		</div>
+	</div>
+
+	<div
+		class="relative mx-auto mt-2xl h-[2.088em] w-full max-w-frame text-giant whitespace-nowrap select-none xl:col-start-1 xl:row-start-1 xl:mt-[125px]"
+	>
+		<p aria-hidden="true" class="absolute top-[1em] left-[-0.046em]">{word}</p>
+		<div class="absolute top-0 left-[1.638em] size-[1.3635em] overflow-hidden rounded-full">
+			<Image
+				src={portrait}
+				alt="Harold Coronado"
+				widths={[400, 709, 1418]}
+				sizes="(min-width: 1720px) 709px, 41vw"
+				loading="eager"
+				class="absolute inset-0 size-full mix-blend-multiply"
+			/>
+			<p aria-hidden="true" class="absolute top-[1em] left-[-1.684em] text-paper">{word}</p>
+		</div>
+	</div>
+</section>

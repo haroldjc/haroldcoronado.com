@@ -1,0 +1,35 @@
+---
+import type { Lang, LangHrefs } from './types';
+
+type Props = {
+	current?: Lang;
+	hrefs?: LangHrefs;
+	class?: string;
+};
+
+const { current = 'en', hrefs = { en: '/', es: '/es/' }, class: className } = Astro.props;
+const langs: { code: Lang; name: string }[] = [
+	{ code: 'en', name: 'English' },
+	{ code: 'es', name: 'Español' },
+];
+---
+
+<nav aria-label="Language" class:list={['flex shrink-0 border border-default', className]}>
+	{
+		langs.map(({ code, name }) => (
+			<a
+				href={hrefs[code]}
+				hreflang={code}
+				lang={code}
+				aria-label={name}
+				aria-current={code === current ? 'true' : undefined}
+				class:list={[
+					'px-sm py-2xs text-label no-underline',
+					code === current ? 'bg-inverse text-on-inverse' : 'text-primary',
+				]}
+			>
+				{code}
+			</a>
+		))
+	}
+</nav>

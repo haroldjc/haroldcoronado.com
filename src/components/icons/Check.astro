@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'svg'> & { size?: number };
+
+const { size = 24, ...attrs } = Astro.props;
+const labelled = Boolean(attrs['aria-label'] || attrs['aria-labelledby']);
+---
+
+<svg
+	width={size}
+	height={size}
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width={48 / size}
+	stroke-linecap="square"
+	role={labelled ? 'img' : undefined}
+	aria-hidden={labelled ? undefined : 'true'}
+	{...attrs}
+>
+	<path d="M4 12L9 17L20 6" />
+</svg>

@@ -1,0 +1,64 @@
+---
+import Icon from '../Icon.astro';
+import type { IconName } from '../icons';
+
+type Props = {
+	variant?: 'primary' | 'secondary';
+	size?: 'large' | 'small';
+	icon?: IconName | false;
+	href?: string;
+	type?: 'button' | 'submit' | 'reset';
+	disabled?: boolean;
+	class?: string;
+};
+
+const {
+	variant = 'primary',
+	size = 'large',
+	icon = 'arrow-right',
+	href,
+	type = 'button',
+	disabled = false,
+	class: className,
+} = Astro.props;
+
+const isLink = Boolean(href) && !disabled;
+
+const sizes = {
+	large: 'h-control gap-sm px-lg text-info',
+	small: 'gap-xs px-md py-sm text-label',
+};
+
+const variants = {
+	primary: {
+		base: 'bg-inverse text-on-inverse disabled:bg-disabled disabled:text-disabled',
+		hover: isLink ? 'hover:bg-inverse-hover' : 'enabled:hover:bg-inverse-hover',
+	},
+	secondary: {
+		base: 'border-2 border-default bg-surface text-primary disabled:border-subtle disabled:text-disabled',
+		hover: isLink ? 'hover:bg-inverse hover:text-on-inverse' : 'enabled:hover:bg-inverse enabled:hover:text-on-inverse',
+	},
+};
+
+const classes = [
+	'inline-flex shrink-0 items-center justify-center whitespace-nowrap no-underline disabled:cursor-not-allowed',
+	sizes[size],
+	variants[variant].base,
+	variants[variant].hover,
+	className,
+];
+---
+
+{
+	isLink ? (
+		<a href={href} class:list={classes}>
+			<slot />
+			{icon && <Icon name={icon} size={size === 'large' ? 24 : 16} />}
+		</a>
+	) : (
+		<button type={type} disabled={disabled} class:list={classes}>
+			<slot />
+			{icon && <Icon name={icon} size={size === 'large' ? 24 : 16} />}
+		</button>
+	)
+}

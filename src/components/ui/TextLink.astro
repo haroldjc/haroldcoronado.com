@@ -1,0 +1,25 @@
+---
+type Props = {
+	href: string;
+	size?: 'large' | 'medium' | 'small';
+	external?: boolean;
+	class?: string;
+};
+
+const { href, size = 'large', external = false, class: className } = Astro.props;
+
+const sizes = {
+	large: 'text-title',
+	medium: 'text-info',
+	small: 'text-label',
+};
+---
+
+<a
+	href={href}
+	target={external ? '_blank' : undefined}
+	rel={external ? 'noopener noreferrer' : undefined}
+	class:list={['inline-flex whitespace-nowrap text-primary no-underline', sizes[size], className]}
+>
+	<slot />
+</a>

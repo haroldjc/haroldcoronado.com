@@ -1,0 +1,23 @@
+---
+type Props = {
+	label: string;
+	href?: string;
+	selected?: boolean;
+	class?: string;
+};
+
+const { label, href, selected = false, class: className } = Astro.props;
+const Element = href ? 'a' : 'span';
+---
+
+<Element
+	href={href}
+	aria-current={href && selected ? 'page' : undefined}
+	class:list={[
+		'inline-flex border border-default px-sm py-2xs text-label whitespace-nowrap no-underline',
+		selected ? 'bg-inverse text-on-inverse' : 'text-primary',
+		className,
+	]}
+>
+	{label}
+</Element>

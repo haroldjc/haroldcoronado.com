@@ -1,0 +1,53 @@
+---
+import Pillar from '../content/Pillar.astro';
+import SectionName from '../content/SectionName.astro';
+import Stage from '../content/Stage.astro';
+import type { skills } from '../../data/home';
+
+type Props = typeof skills;
+
+const { headline, pillars, processTitle, stages, lanes } = Astro.props;
+---
+
+<section id="skills" data-theme="paper" aria-labelledby="skills-title" class="py-section">
+	<div class="wrapper flex flex-col gap-block">
+		<div class="flex flex-col gap-4xl">
+			<div class="flex flex-col gap-lg">
+				<SectionName label="skills" />
+				<h2 id="skills-title" class="text-headline text-accent">
+					{headline.map((line) => <span class="block">{line}</span>)}
+				</h2>
+			</div>
+			<div class="layout-grid gap-y-2xl">
+				{pillars.map((pillar) => <Pillar {...pillar} class="col-span-full md:col-span-4" />)}
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-2xl">
+			<h3 class="text-title">{processTitle}</h3>
+			<div class="layout-grid gap-y-xl">
+				{stages.map((stage) => <Stage {...stage} class="col-span-2" />)}
+			</div>
+			<div class="layout-grid text-info text-paper">
+				<div class="relative col-[1/span_3] row-start-1 h-28 md:col-[1/span_6]">
+					<span aria-hidden="true" class="absolute inset-0 bg-red mix-blend-multiply"></span>
+					<p class="relative px-md pt-5">{lanes.design}</p>
+				</div>
+				<div
+					class="relative col-[2/-1] row-start-1 flex h-28 flex-col justify-between md:col-[5/-1] md:grid md:grid-cols-subgrid md:content-start"
+				>
+					<span aria-hidden="true" class="absolute inset-0 bg-teal mix-blend-multiply"></span>
+					<p class="relative px-md pt-5 md:col-span-2">{lanes.overlap}</p>
+					<p class="relative self-end px-md pb-9 md:col-start-3 md:self-auto md:pt-5 md:pb-0">{lanes.development}</p>
+				</div>
+				<div class="relative col-span-full row-start-2 -mt-lg grid grid-cols-subgrid gap-y-xs pt-9 pb-md">
+					<span aria-hidden="true" class="absolute inset-0 bg-plum mix-blend-multiply"></span>
+					<p class="relative col-span-full px-md">{lanes.agents}</p>
+					<ul role="list" class="relative col-span-full grid grid-cols-subgrid gap-y-2xs text-body">
+						{lanes.tasks.map((task) => <li class="col-span-2 px-md">{task}</li>)}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

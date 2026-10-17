@@ -1,0 +1,26 @@
+---
+type Props = {
+	kind?: 'link' | 'note' | 'blank';
+	href?: string;
+	external?: boolean;
+	class?: string;
+};
+
+const { kind = 'link', href, external = false, class: className } = Astro.props;
+const Element = kind === 'link' && href ? 'a' : 'div';
+---
+
+<Element
+	href={Element === 'a' ? href : undefined}
+	target={Element === 'a' && external ? '_blank' : undefined}
+	rel={Element === 'a' && external ? 'noopener noreferrer' : undefined}
+	aria-hidden={kind === 'blank' ? 'true' : undefined}
+	class:list={[
+		'flex flex-col px-margin py-10 text-on-tonal no-underline',
+		kind === 'link' && 'text-title whitespace-nowrap',
+		kind === 'note' && 'justify-end text-label',
+		className,
+	]}
+>
+	<slot />
+</Element>

@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { icons, type IconName } from '../components/icons';
+import Monogram from '../components/brand/Monogram.astro';
+import Wordmark from '../components/brand/Wordmark.astro';
+import Button from '../components/ui/Button.astro';
+import IconButton from '../components/ui/IconButton.astro';
+import TextLink from '../components/ui/TextLink.astro';
+import TextField from '../components/forms/TextField.astro';
+import Textarea from '../components/forms/Textarea.astro';
+import Select from '../components/forms/Select.astro';
+import Checkbox from '../components/forms/Checkbox.astro';
+import Radio from '../components/forms/Radio.astro';
+import SectionName from '../components/content/SectionName.astro';
+import Pillar from '../components/content/Pillar.astro';
+import Stage from '../components/content/Stage.astro';
+import ContentItem from '../components/content/ContentItem.astro';
+import Tag from '../components/content/Tag.astro';
+import Quote from '../components/content/Quote.astro';
+import ProjectTile from '../components/content/ProjectTile.astro';
+import ExperienceRow from '../components/content/ExperienceRow.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import SiteFooter from '../components/navigation/SiteFooter.astro';
+import LangToggle from '../components/navigation/LangToggle.astro';
+import NavLink from '../components/navigation/NavLink.astro';
+
+const modes = ['paper', 'red', 'teal', 'plum'] as const;
+const ramps = ['red', 'teal', 'plum'] as const;
+const rampSteps = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const neutralSteps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 850, 900];
+const tonal = ['bg-tonal-1', 'bg-tonal-2', 'bg-tonal-3', 'bg-tonal-4', 'bg-tonal-5', 'bg-tonal-6'];
+const iconNames = Object.keys(icons) as IconName[];
+
+const textStyles = [
+	{ className: 'text-giant', name: 'Display/Giant', sample: 'ink' },
+	{ className: 'text-display', name: 'Display/Large', sample: 'tokens.' },
+	{ className: 'text-headline', name: 'Headline', sample: 'three disciplines.' },
+	{ className: 'text-title', name: 'Title', sample: 'from idea to deploy.' },
+	{ className: 'text-heading', name: 'Heading', sample: 'odisea del cosmos' },
+	{ className: 'text-info', name: 'Info', sample: 'senior product engineer' },
+	{ className: 'text-info font-bold', name: 'Info/Strong', sample: 'Harold Coronado' },
+	{ className: 'text-body-lg', name: 'Body/Large', sample: 'Full stack developer and designer with over 15 years of experience.' },
+	{ className: 'text-body', name: 'Body/Default', sample: 'Tokens and components shared by design and code.' },
+	{ className: 'text-label', name: 'Label', sample: 'columns: default · hover · focus' },
+];
+
+const spaces = ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl'];
+
+const footerLinks: Parameters<typeof SiteFooter>[0]['links'] = [
+	{ label: 'email ↗', href: '#' },
+	{ label: 'github ↗', href: '#', external: true },
+	{ label: 'linkedin ↗', href: '#', external: true },
+	{ label: 'youtube ↗', href: '#', external: true },
+];
+
+const topics = [
+	{ value: 'design-system', label: 'design system' },
+	{ value: 'product-design', label: 'product design' },
+	{ value: 'front-end', label: 'front-end build' },
+];
+---
+
+<BaseLayout title="Styleguide · Harold Coronado">
+	<div data-theme="red">
+		<SiteHeader current="/#work" contact={{ label: 'email ↗', href: '#' }} />
+		<div class="wrapper flex flex-col gap-xl pt-3xl pb-section">
+			<SectionName label="styleguide" />
+			<h1 class="text-display">tokens.</h1>
+		</div>
+	</div>
+
+	<main>
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="colour primitives" as="h2" />
+				{
+					ramps.map((ramp) => (
+						<ul role="list" class="grid grid-cols-[repeat(auto-fit,minmax(96px,1fr))]">
+							{rampSteps.map((step) => (
+								<li
+									style={`background: var(--color-${ramp}-${step})`}
+									class:list={['aspect-square p-xs text-label', step < 500 ? 'text-ink' : 'text-paper']}
+								>
+									{ramp}/{step}
+								</li>
+							))}
+						</ul>
+					))
+				}
+				<ul role="list" class="grid grid-cols-[repeat(auto-fit,minmax(96px,1fr))]">
+					{
+						neutralSteps.map((step) => (
+							<li
+								style={`background: var(--color-neutral-${step})`}
+								class:list={['aspect-square p-xs text-label', step < 500 ? 'text-ink' : 'text-paper']}
+							>
+								neutral/{step}
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+
+		{
+			modes.map((mode) => (
+				<section data-theme={mode} class="py-section">
+					<div class="wrapper flex flex-col gap-xl">
+						<SectionName label={`mode · ${mode}`} as="h2" />
+						<p class="text-headline">{mode} section.</p>
+						<p class="text-body-lg">
+							Body text in <span class="text-accent">accent</span> and <span class="text-secondary">secondary</span>.
+						</p>
+						<div class="flex flex-wrap items-center gap-md">
+							<Button>get in touch</Button>
+							<Button variant="secondary">get in touch</Button>
+							<Tag label="front end" />
+							<Tag label="front end" selected />
+							<IconButton icon="menu" label="Menu" variant="outline" />
+						</div>
+						<ul role="list" class="grid grid-cols-3 md:grid-cols-6">
+							{tonal.map((tone, i) => (
+								<li class:list={['py-2xl ps-xs text-label text-on-tonal', tone]}>tonal/{i + 1}</li>
+							))}
+						</ul>
+					</div>
+				</section>
+			))
+		}
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="typography" as="h2" />
+				{
+					textStyles.map(({ className, name, sample }) => (
+						<div class="flex flex-col gap-xs border-t border-subtle pt-md">
+							<p class="text-label text-secondary">{name}</p>
+							<p class:list={[className, 'wrap-anywhere']}>{sample}</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="spacing" as="h2" />
+				{
+					spaces.map((space) => (
+						<div class="grid grid-cols-[8rem_1fr] items-center text-label">
+							<span>space/{space}</span>
+							<span class="h-md bg-red" style={`width: var(--space-${space})`} />
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="layout & grid" as="h2" />
+				<div class="layout-grid gap-y-gutter">
+					{
+						Array.from({ length: 12 }, (_, i) => (
+							<div class="bg-[var(--color-red-200)] py-4xl text-center text-label">{i + 1}</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="icons" as="h2" />
+				<ul role="list" class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-md">
+					{
+						iconNames.map((name) => (
+							<li class="flex flex-col items-start gap-xs border-t border-subtle pt-md text-label">
+								<Icon name={name} />
+								{name}
+							</li>
+						))
+					}
+				</ul>
+				<div class="flex items-end gap-xl text-label">
+					<Icon name="arrow-right" size={16} />
+					<Icon name="arrow-right" size={24} />
+					<Icon name="arrow-right" size={48} />
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="brand" as="h2" />
+				<Wordmark />
+				<div class="flex flex-wrap gap-xl">
+					<Monogram variant="a-block" />
+					<Monogram variant="b-overprint" />
+					<Monogram variant="c-blank" />
+				</div>
+				<div class="flex items-end gap-md">
+					<Monogram variant="a-block" size={16} />
+					<Monogram variant="a-block" size={32} />
+					<Monogram variant="a-block" size={64} />
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="buttons & links" as="h2" />
+				<div class="flex flex-wrap items-center gap-md">
+					<Button>get in touch</Button>
+					<Button disabled>get in touch</Button>
+					<Button variant="secondary">get in touch</Button>
+					<Button variant="secondary" disabled>get in touch</Button>
+				</div>
+				<div class="flex flex-wrap items-center gap-md">
+					<Button size="small">get in touch</Button>
+					<Button size="small" disabled>get in touch</Button>
+					<Button size="small" variant="secondary">get in touch</Button>
+					<Button size="small" variant="secondary" disabled>get in touch</Button>
+					<Button href="#" size="small" icon={false}>as a link</Button>
+				</div>
+				<div class="flex flex-wrap items-center gap-md">
+					<IconButton icon="menu" label="Menu" />
+					<IconButton icon="menu" label="Menu" disabled />
+					<IconButton icon="menu" label="Menu" variant="outline" />
+					<IconButton icon="menu" label="Menu" variant="outline" disabled />
+				</div>
+				<div class="flex flex-col items-start gap-md">
+					<TextLink href="#">full résumé →</TextLink>
+					<TextLink href="#" size="medium">full résumé →</TextLink>
+					<TextLink href="#" size="small">full résumé →</TextLink>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="forms" as="h2" />
+				<div class="layout-grid gap-y-xl">
+					<TextField class="col-span-4" label="email" name="email" type="email" placeholder="you@example.com" helper="I reply within two days." />
+					<TextField class="col-span-4" label="email" name="email-filled" type="email" value="you@example.com" helper="I reply within two days." />
+					<TextField class="col-span-4" label="email" name="email-error" type="email" value="you@example" error="add the full address, like name@domain.com" />
+					<TextField class="col-span-4" label="email" name="email-disabled" placeholder="you@example.com" helper="I reply within two days." disabled />
+					<Select class="col-span-4" label="topic" name="topic" placeholder="choose one" options={topics} helper="I reply within two days." />
+					<Select class="col-span-4" label="topic" name="topic-disabled" placeholder="choose one" options={topics} helper="I reply within two days." disabled />
+					<Textarea class="col-span-4" label="message" name="message" placeholder="tell me about the project" helper="I reply within two days." />
+					<Textarea class="col-span-4" label="message" name="message-error" value="tell me about the project" error="add a few words about the project" />
+					<Textarea class="col-span-4" label="message" name="message-disabled" placeholder="tell me about the project" helper="I reply within two days." disabled />
+				</div>
+				<div class="flex flex-wrap gap-xl">
+					<Checkbox label="send me a copy" name="copy" />
+					<Checkbox label="send me a copy" name="copy-checked" checked />
+					<Checkbox label="send me a copy" name="copy-disabled" disabled />
+					<Checkbox label="send me a copy" name="copy-checked-disabled" checked disabled />
+				</div>
+				<div class="flex flex-wrap gap-xl">
+					<Radio label="freelance project" name="kind" value="freelance" />
+					<Radio label="full-time role" name="kind" value="full-time" checked />
+					<Radio label="freelance project" name="kind-disabled" value="a" disabled />
+					<Radio label="freelance project" name="kind-disabled" value="b" checked disabled />
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-block">
+				<div class="flex flex-col gap-xl">
+					<SectionName label="content" as="h2" />
+					<div class="layout-grid gap-y-xl">
+						<Pillar
+							class="col-span-full md:col-span-4"
+							title="design"
+							description="Interfaces with a point of view."
+							tools={['Figma', 'Design systems', 'Prototyping', 'Typography & layout', 'UX writing']}
+						/>
+						<Pillar
+							class="col-span-full md:col-span-4"
+							title="build"
+							description="Front ends that hold up."
+							tools={['TypeScript', 'Astro', 'React', 'CSS', 'Accessibility']}
+						/>
+						<Pillar
+							class="col-span-full md:col-span-4"
+							title="ai"
+							description="Agents in the workflow."
+							tools={['Claude', 'Prompt design', 'Evaluation', 'Automation']}
+						/>
+					</div>
+				</div>
+				<div class="layout-grid gap-y-xl">
+					<Stage class="col-span-2" name="idea" description="Brief, research and constraints." />
+					<Stage class="col-span-2" name="prototype" description="Fast, rough and testable." />
+					<Stage class="col-span-2" name="system" description="Tokens and components." />
+					<Stage class="col-span-2" name="build" description="Production front end." />
+					<Stage class="col-span-2" name="review" description="Accessibility and quality." />
+					<Stage class="col-span-2" name="deploy" description="Shipped and measured." />
+				</div>
+				<div class="layout-grid gap-y-xl">
+					<ContentItem
+						class="col-span-full md:col-span-3"
+						label="youtube"
+						title="odisea del cosmos"
+						description="A channel where I explain the science in science fiction media."
+						link={{ href: '#', label: 'watch the channel →' }}
+					/>
+					<ContentItem class="col-span-full md:col-span-3" label="book" title="on collecting" description="Co-authoring a book about collecting, out in 2027." />
+				</div>
+				<div class="flex flex-wrap gap-xs">
+					<Tag label="all" href="#" selected />
+					<Tag label="front end" href="#" />
+					<Tag label="design systems" href="#" />
+				</div>
+				<Quote
+					class="max-w-[880px]"
+					quote="Harold sees the whole thing — the system, the screen and the code — and makes them agree."
+					attribution="name surname, role at company"
+				/>
+			</div>
+		</section>
+
+		<section data-theme="teal" class="py-section">
+			<div class="wrapper-wide flex flex-col gap-xl">
+				<SectionName label="work" as="h2" />
+				<div class="layout-grid gap-y-xl">
+					<ProjectTile class="col-span-2 md:col-span-3" name="client one" meta="brand + web · 2025" href="#" />
+					<ProjectTile class="col-span-2 md:col-span-3" name="client two" meta="design system · 2024" href="#" />
+					<ProjectTile class="col-span-2 md:col-span-3" name="client three" meta="product · 2023" href="#" />
+					<ProjectTile class="col-span-2 md:col-span-3" name="client four" meta="web · 2022" href="#" />
+				</div>
+			</div>
+			<div class="wrapper mt-block flex flex-col">
+				<ExperienceRow
+					company="commence"
+					location="remote, USA"
+					role="senior product engineer"
+					years="2025 — now"
+					description="What you owned, who you worked with and one result."
+				/>
+				<ExperienceRow
+					company="company two"
+					location="bogotá, CO"
+					role="product designer"
+					years="2020 — 2025"
+					description="What you owned, who you worked with and one result."
+				/>
+				<div class="border-t-2 border-default pt-lg">
+					<TextLink href="#">full résumé →</TextLink>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-section">
+			<div class="wrapper flex flex-col gap-xl">
+				<SectionName label="navigation" as="h2" />
+				<div class="flex flex-wrap items-center gap-xl">
+					<NavLink href="#">work</NavLink>
+					<NavLink href="#" current>work</NavLink>
+					<LangToggle current="en" />
+					<LangToggle current="es" />
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<SiteFooter links={footerLinks} />
+</BaseLayout>

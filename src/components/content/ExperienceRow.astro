@@ -1,0 +1,26 @@
+---
+type Props = {
+	company: string;
+	location: string;
+	role: string;
+	years: string;
+	description: string;
+	class?: string;
+};
+
+const { company, location, role, years, description, class: className } = Astro.props;
+---
+
+<article class:list={['layout-grid gap-y-lg border-t-2 border-default pt-lg pb-10 text-primary', className]}>
+	<div class="col-span-full flex flex-col gap-xs md:col-span-8">
+		<h3 class="text-title">{company}</h3>
+		<p class="text-body">{location}</p>
+	</div>
+	<div class="col-span-full flex flex-col gap-2.5 md:col-span-4 md:pt-5">
+		<p class="flex items-start gap-lg text-info">
+			<span class="flex-1">{role}</span>
+			<span class="whitespace-nowrap">{years}</span>
+		</p>
+		<p class="text-body">{description}</p>
+	</div>
+</article>

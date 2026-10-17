@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import FieldHelper from './FieldHelper.astro';
+
+type Props = Omit<HTMLAttributes<'textarea'>, 'class'> & {
+	label: string;
+	name: string;
+	value?: string;
+	helper?: string;
+	error?: string;
+	class?: string;
+};
+
+const { label, name, id = name, value, helper, error, class: className, ...attrs } = Astro.props;
+const helperId = `${id}-helper`;
+const hasHelper = Boolean(helper || error);
+---
+
+<div class:list={['group flex flex-col gap-xs text-primary has-disabled:text-disabled', className]}>
+	<label for={id} class="text-label">{label}</label>
+	<textarea
+		id={id}
+		name={name}
+		aria-invalid={error ? 'true' : undefined}
+		aria-describedby={hasHelper ? helperId : undefined}
+		class="block h-40 min-h-control w-full resize-none border-b-2 border-default bg-field px-md pt-md text-body text-primary placeholder:text-secondary aria-invalid:border-error disabled:border-subtle disabled:bg-disabled disabled:text-disabled disabled:placeholder:text-disabled"
+		{...attrs}
+		set:text={value ?? ''}
+	/>
+	<FieldHelper id={helperId} helper={helper} error={error} />
+</div>

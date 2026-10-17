@@ -1,0 +1,70 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import IconButton from '../ui/IconButton.astro';
+import LangToggle from './LangToggle.astro';
+import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+
+type Props = {
+	id?: string;
+	links?: NavItem[];
+	current?: string;
+	lang?: Lang;
+	langHrefs?: LangHrefs;
+	contact?: NavItem;
+	theme?: 'paper' | 'red' | 'teal' | 'plum';
+};
+
+const { id = 'mobile-menu', links = defaultNav, current, lang, langHrefs, contact, theme = 'paper' } = Astro.props;
+---
+
+<dialog
+	id={id}
+	aria-label="Menu"
+	data-theme={theme}
+	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between border border-subtle bg-surface p-margin text-primary open:flex"
+>
+	<div class="flex flex-col gap-2xl">
+		<div class="flex items-center justify-between">
+			<Wordmark href="/" />
+			<form method="dialog">
+				<IconButton type="submit" icon="close" label="Close menu" />
+			</form>
+		</div>
+		<nav aria-label="Main">
+			<ul role="list">
+				{
+					links.map((link) => (
+						<li class="border-t border-default py-md">
+							<a
+								href={link.href}
+								aria-current={link.href === current ? 'page' : undefined}
+								class="text-title whitespace-nowrap text-primary no-underline"
+							>
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+	<div class="flex items-center justify-between">
+		<LangToggle current={lang} hrefs={langHrefs} />
+		{
+			contact && (
+				<a href={contact.href} class="text-info whitespace-nowrap text-primary no-underline">
+					{contact.label}
+				</a>
+			)
+		}
+	</div>
+</dialog>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('[data-menu-open]').forEach((button) => {
+		const dialog = document.getElementById(button.dataset.menuOpen ?? '');
+		if (!(dialog instanceof HTMLDialogElement)) return;
+		button.addEventListener('click', () => dialog.showModal());
+		dialog.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', () => dialog.close()));
+	});
+</script>

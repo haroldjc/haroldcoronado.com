@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = Omit<HTMLAttributes<'input'>, 'class' | 'type'> & {
+	label: string;
+	name: string;
+	value: string;
+	class?: string;
+};
+
+const { label, class: className, ...attrs } = Astro.props;
+---
+
+<label class:list={['inline-flex cursor-pointer items-center gap-sm text-body text-primary has-disabled:cursor-not-allowed has-disabled:text-disabled', className]}>
+	<span class="grid shrink-0 place-items-center">
+		<input
+			type="radio"
+			class="peer col-start-1 row-start-1 size-6 cursor-[inherit] appearance-none rounded-full border-2 border-default bg-field enabled:hover:bg-subtle disabled:border-subtle"
+			{...attrs}
+		/>
+		<span
+			class="pointer-events-none col-start-1 row-start-1 hidden size-2.5 rounded-full bg-(--color-border-default) peer-checked:block peer-disabled:bg-(--color-text-disabled)"
+		></span>
+	</span>
+	{label}
+</label>

@@ -1,0 +1,40 @@
+---
+type Props = {
+	variant?: 'a-block' | 'b-overprint' | 'c-blank';
+	size?: number;
+	class?: string;
+};
+
+const { variant = 'a-block', size = 160, class: className } = Astro.props;
+---
+
+<span
+	role="img"
+	aria-label="hc"
+	class:list={['@container relative block shrink-0 overflow-hidden font-bold leading-none whitespace-nowrap', className]}
+	style={`width: ${size}px; height: ${size}px`}
+>
+	{
+		variant === 'a-block' && (
+			<span class="absolute inset-0 bg-ink">
+				<span class="absolute top-[36.25cqw] left-[5cqw] text-[75cqw] tracking-[-0.08em] text-paper">hc</span>
+			</span>
+		)
+	}
+	{
+		variant === 'b-overprint' && (
+			<span class="absolute inset-0 bg-paper text-[93.75cqw] tracking-[-0.08em]">
+				<span class="absolute top-[5cqw] left-[2.5cqw] text-red mix-blend-multiply">h</span>
+				<span class="absolute top-[5cqw] left-[38.75cqw] text-teal mix-blend-multiply">c</span>
+			</span>
+		)
+	}
+	{
+		variant === 'c-blank' && (
+			<span class="absolute inset-0 bg-red">
+				<span class="absolute top-[25cqw] left-[7.5cqw] text-[60cqw] tracking-[-0.08em] text-ink">hc</span>
+				<span class="absolute top-[77.5cqw] left-[70cqw] h-[3.75cqw] w-[22.5cqw] bg-ink" />
+			</span>
+		)
+	}
+</span>

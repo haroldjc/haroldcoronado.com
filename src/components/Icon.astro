@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { icons, type IconName } from './icons';
+
+type Props = HTMLAttributes<'svg'> & { name: IconName; size?: number };
+
+const { name, ...attrs } = Astro.props;
+const Component = icons[name];
+---
+
+<Component {...attrs} />

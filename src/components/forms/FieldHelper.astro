@@ -1,0 +1,26 @@
+---
+import Icon from '../Icon.astro';
+
+type Props = {
+	id: string;
+	helper?: string;
+	error?: string;
+};
+
+const { id, helper, error } = Astro.props;
+---
+
+{
+	error ? (
+		<p id={id} class="flex items-center gap-xs text-label text-error">
+			<Icon name="alert" size={16} />
+			{error}
+		</p>
+	) : (
+		helper && (
+			<p id={id} class="text-label text-secondary group-has-disabled:text-disabled">
+				{helper}
+			</p>
+		)
+	)
+}

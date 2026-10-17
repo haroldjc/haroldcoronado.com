@@ -1,0 +1,41 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import IconButton from '../ui/IconButton.astro';
+import LangToggle from './LangToggle.astro';
+import MobileMenu from './MobileMenu.astro';
+import NavLink from './NavLink.astro';
+import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+
+type Props = {
+	links?: NavItem[];
+	current?: string;
+	lang?: Lang;
+	langHrefs?: LangHrefs;
+	contact?: NavItem;
+	class?: string;
+};
+
+const { links = defaultNav, current, lang = 'en', langHrefs, contact, class: className } = Astro.props;
+---
+
+<header class:list={['wrapper flex h-20 items-center justify-between', className]}>
+	<Wordmark href="/" />
+	<div class="flex items-center gap-md md:gap-2xl">
+		<nav aria-label="Main" class="hidden md:block">
+			<ul role="list" class="flex gap-xl">
+				{
+					links.map((link) => (
+						<li>
+							<NavLink href={link.href} current={link.href === current}>
+								{link.label}
+							</NavLink>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<LangToggle current={lang} hrefs={langHrefs} />
+		<IconButton icon="menu" label="Open menu" data-menu-open="mobile-menu" aria-haspopup="dialog" class="md:hidden" />
+	</div>
+	<MobileMenu id="mobile-menu" links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
+</header>

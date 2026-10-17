@@ -1,0 +1,14 @@
+---
+type Props = {
+	name: string;
+	description: string;
+	class?: string;
+};
+
+const { name, description, class: className } = Astro.props;
+---
+
+<div class:list={['flex flex-col gap-xs border-t border-default pt-md text-primary', className]}>
+	<h3 class="text-info">{name}</h3>
+	<p class="text-body">{description}</p>
+</div>
