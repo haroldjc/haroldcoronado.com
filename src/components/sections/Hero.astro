@@ -17,7 +17,7 @@ const { headline, highlight, bio, word } = Astro.props;
 				{headline.map((line) => <span class="block">{line}</span>)}
 				<span class="block text-paper">{highlight}</span>
 			</h1>
-			<p class="max-w-[600px] text-body-lg xl:max-w-[min(600px,calc(49vw-var(--layout-margin)-2rem))]">{bio}</p>
+			<p class="max-w-150 text-body-lg xl:max-w-[min(600px,calc(49vw-var(--layout-margin)-2rem))]">{bio}</p>
 		</div>
 	</div>
 
@@ -25,16 +25,64 @@ const { headline, highlight, bio, word } = Astro.props;
 		class="relative mx-auto mt-2xl h-[2.088em] w-full max-w-frame text-giant whitespace-nowrap select-none xl:col-start-1 xl:row-start-1 xl:mt-[125px]"
 	>
 		<p aria-hidden="true" class="absolute top-[1em] left-[-0.046em]">{word}</p>
-		<div class="absolute top-0 left-[1.638em] size-[1.3635em] overflow-hidden rounded-full">
-			<Image
-				src={portrait}
-				alt="Harold Coronado"
-				widths={[400, 709, 1418]}
-				sizes="(min-width: 1720px) 709px, 41vw"
-				loading="eager"
-				class="absolute inset-0 size-full mix-blend-multiply"
-			/>
-			<p aria-hidden="true" class="absolute top-[1em] left-[-1.684em] text-paper">{word}</p>
+		<Image
+			src={portrait}
+			alt="Harold Coronado"
+			widths={[400, 709, 1418]}
+			sizes="(min-width: 1720px) 709px, 41vw"
+			loading="eager"
+			class="hero-pin absolute top-0 left-[1.638em] size-[1.3635em] rounded-full mix-blend-multiply"
+		/>
+		<div aria-hidden="true" class="hero-pin absolute top-0 left-[1.638em] size-[1.3635em] overflow-hidden rounded-full">
+			<p class="hero-unpin absolute top-[1em] left-[-1.684em] text-paper">{word}</p>
 		</div>
 	</div>
 </section>
+
+<style is:global>
+	@keyframes hero-pin {
+		to {
+			translate: 0 100000px;
+		}
+	}
+
+	@keyframes hero-unpin {
+		to {
+			translate: 0 -100000px;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) and (min-width: 80rem) {
+		@supports (animation-timeline: scroll()) {
+			.hero-pin,
+			.hero-unpin {
+				animation: hero-pin linear both;
+				animation-timeline: scroll(root);
+				animation-range: 0px 100000px;
+			}
+
+			.hero-unpin {
+				animation-name: hero-unpin;
+			}
+		}
+
+		@supports not (animation-timeline: scroll()) {
+			.hero-pin {
+				translate: 0 var(--hero-scroll, 0px);
+			}
+
+			.hero-unpin {
+				translate: 0 calc(var(--hero-scroll, 0px) * -1);
+			}
+		}
+	}
+</style>
+
+<script>
+	if (!CSS.supports('animation-timeline: scroll()') && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+		const root = document.documentElement;
+		const update = () => root.style.setProperty('--hero-scroll', `${scrollY}px`);
+		addEventListener('scroll', update, { passive: true });
+		update();
+	}
+</script>
