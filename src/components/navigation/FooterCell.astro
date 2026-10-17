@@ -23,13 +23,5 @@ const Element = kind === 'link' && href ? 'a' : 'div';
 		className,
 	]}
 >
-	{
-		kind === 'link' ? (
-			<span class="self-start bg-[linear-gradient(currentColor,currentColor)] bg-[length:100%_2px] bg-[position:0_calc(100%-1px)] bg-no-repeat">
-				<slot />
-			</span>
-		) : (
-			<slot />
-		)
-	}
+	<slot />
 </Element>

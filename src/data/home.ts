@@ -1,3 +1,8 @@
+export const announcement = {
+	message: 'The journal is live — notes on design systems, building with agents, and everything in between.',
+	link: { label: 'read the journal →', href: '#' },
+};
+
 export const hero = {
 	headline: ['I’m Harold', 'I build stuff.'],
 	highlight: 'End to end.',
