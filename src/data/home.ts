@@ -90,15 +90,17 @@ export const work = {
 };
 
 export const about = {
-	headline: ['science, sci-fi', 'and stories.'],
+	headline: ['design, tech,', 'science and art.'],
 	note: ['off the clock,', 'on youtube and in print'],
-	intro: 'In my spare time I write, read and create content. Making videos taught me to record, edit and tell a story — and that instinct carries into everything I build.',
+	intro: `I am passionate about many things. Beyond my professional work, I enjoy reading books on popular science as well as science fiction. This combination led me to create a YouTube channel called [Odisea del Cosmos](https://www.youtube.com/@OdiseadelCosmos), dedicated to exploring the science found within science fiction, both in film and literature. Currently, I am working on a related project called *Odisea Axis*.
+	
+	I love art in all its forms, including film and music, ranging from blues to hip-hop, with a particular emphasis on rock and, especially in the last ten years, jazz.`,
 	planets: ['technology', 'design', 'science', 'art'],
 	items: [
 		{
 			label: 'youtube',
 			title: 'odisea del cosmos',
-			description: 'A channel where I explain the science in science fiction media.',
+			description: 'A channel where I explain the science in science fiction media. In Spanish only.',
 			link: { label: 'watch the channel →', href: '#', external: true },
 		},
 		{

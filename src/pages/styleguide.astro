@@ -7,6 +7,7 @@ import Wordmark from '../components/brand/Wordmark.astro';
 import Button from '../components/ui/Button.astro';
 import IconButton from '../components/ui/IconButton.astro';
 import TextLink from '../components/ui/TextLink.astro';
+import RichText from '../components/content/RichText.astro';
 import TextField from '../components/forms/TextField.astro';
 import Textarea from '../components/forms/Textarea.astro';
 import Select from '../components/forms/Select.astro';
@@ -235,6 +236,7 @@ const topics = [
 					<TextLink href="#">full résumé →</TextLink>
 					<TextLink href="#" size="medium">full résumé →</TextLink>
 					<TextLink href="#" size="small">full résumé →</TextLink>
+					<RichText value="Inline links like [this one](#) take the size and color of the text around them." class="max-w-150 text-body" />
 				</div>
 			</div>
 		</section>

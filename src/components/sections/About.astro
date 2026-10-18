@@ -1,46 +1,17 @@
 ---
+import Constellation from '../about-graphics/Constellation.astro';
 import ContentItem from '../content/ContentItem.astro';
+import RichText from '../content/RichText.astro';
 import SectionName from '../content/SectionName.astro';
 import type { about } from '../../data/home';
 
 type Props = typeof about;
 
-const { headline, note, intro, planets, items } = Astro.props;
-
-const width = 1720;
-const height = 1220;
-const sun = { cx: -120, cy: 600, r: 520 };
-const orbits = [720, 930, 1160, 1400, 1640];
-const bodies = [
-	{ cx: 538, cy: 307, r: 56, fill: 'fill-teal', label: { x: 608, y: 298 } },
-	{ cx: 782, cy: 825, r: 88, fill: 'fill-red', label: { x: 884, y: 816 } },
-	{ cx: 931, cy: 110, r: 22, fill: 'fill-ink', label: { x: 967, y: 101 } },
-	{ cx: 1196, cy: 1079, r: 44, fill: 'fill-plum', label: { x: 1254, y: 1070 } },
-];
-const percent = (value: number, total: number) => `${(value / total) * 100}%`;
+const { headline, note, intro, items } = Astro.props;
 ---
 
 <section data-theme="paper" aria-labelledby="about-title" class="overflow-x-clip">
-	<div class="relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip">
-		<svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" class="absolute inset-0 size-full overflow-visible">
-			<circle cx={sun.cx} cy={sun.cy} r={sun.r} class="fill-red mix-blend-multiply" />
-			{
-				orbits.map((r) => (
-					<circle cx={sun.cx} cy={sun.cy} r={r} fill="none" vector-effect="non-scaling-stroke" class="stroke-ink" />
-				))
-			}
-			{bodies.map((body) => <circle cx={body.cx} cy={body.cy} r={body.r} class={body.fill} />)}
-		</svg>
-		<ul role="list" class="text-label">
-			{
-				bodies.map((body, i) => (
-					<li class="absolute whitespace-nowrap" style={{ left: percent(body.label.x, width), top: percent(body.label.y, height) }}>
-						{planets[i]}
-					</li>
-				))
-			}
-		</ul>
-	</div>
+	<Constellation />
 
 	<div id="about" class="wrapper flex flex-col gap-4xl py-section">
 		<div class="flex flex-col gap-lg">
@@ -55,7 +26,7 @@ const percent = (value: number, total: number) => `${(value / total) * 100}%`;
 			</div>
 		</div>
 		<div class="layout-grid gap-y-3xl">
-			<p class="col-span-full text-body-lg md:col-span-6">{intro}</p>
+			<RichText value={intro} class="col-span-full text-body-lg md:col-span-6" />
 			<div class="col-span-full grid gap-2xl sm:grid-cols-2 md:col-span-6 md:pt-1.5">
 				{items.map((item) => <ContentItem {...item} />)}
 			</div>

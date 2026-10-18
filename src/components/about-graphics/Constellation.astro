@@ -1,0 +1,79 @@
+---
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+
+const width = 1720;
+const height = 1220;
+const grid = { x: 42, y: 60, height: 1108, gap: 48, dot: 2 };
+const bleed = { x: -4800, width: width + 9600 };
+const hiddenDots = [
+	[812, 302],
+	[860, 302],
+	[1244, 350],
+	[1148, 590],
+	[908, 638],
+	[1340, 974],
+	[908, 1022],
+];
+const stars = {
+	meissa: { cx: 1004, cy: 110, r: 7, fill: 'fill-ink', label: { x: 980, y: 77 } },
+	betelgeuse: { cx: 764, cy: 302, r: 16, fill: 'fill-red', label: { x: 790, y: 292 } },
+	bellatrix: { cx: 1196, cy: 350, r: 8, fill: 'fill-ink', label: { x: 1214, y: 340 } },
+	mintaka: { cx: 1100, cy: 590, r: 9, fill: 'fill-plum', label: { x: 1119, y: 580 } },
+	alnilam: { cx: 1052, cy: 638, r: 9, fill: 'fill-plum', label: { x: 1028, y: 653 } },
+	alnitak: { cx: 956, cy: 638, r: 9, fill: 'fill-plum', label: { x: 892, y: 628 } },
+	saiph: { cx: 860, cy: 1022, r: 8, fill: 'fill-ink', label: { x: 878, y: 1012 } },
+	rigel: { cx: 1292, cy: 974, r: 14, fill: 'fill-teal', label: { x: 1316, y: 964 } },
+};
+const lines = [
+	['alnitak', 'betelgeuse', 'meissa', 'bellatrix', 'mintaka'],
+	['alnitak', 'alnilam', 'mintaka', 'rigel'],
+	['alnitak', 'saiph'],
+] as const;
+const percent = (value: number, total: number) => `${(value / total) * 100}%`;
+---
+
+<div class:list={['relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip', className]}>
+	<svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" class="absolute inset-0 size-full overflow-visible">
+		<defs>
+			<pattern id="constellation-grid" x={grid.x} y={grid.y} width={grid.gap} height={grid.gap} patternUnits="userSpaceOnUse">
+				<circle cx={grid.dot} cy={grid.dot} r={grid.dot} class="fill-(--color-border-subtle)" />
+			</pattern>
+			<mask id="constellation-gaps" maskUnits="userSpaceOnUse" x={bleed.x} y="0" width={bleed.width} height={height}>
+				<rect x={bleed.x} width={bleed.width} height={height} fill="white" />
+				{hiddenDots.map(([cx, cy]) => <circle {cx} {cy} r={grid.dot * 2} fill="black" />)}
+			</mask>
+		</defs>
+		<rect
+			x={bleed.x}
+			y={grid.y}
+			width={bleed.width}
+			height={grid.height}
+			fill="url(#constellation-grid)"
+			mask="url(#constellation-gaps)"
+		/>
+		{
+			lines.map((path) => (
+				<polyline
+					points={path.map((name) => `${stars[name].cx},${stars[name].cy}`).join(' ')}
+					fill="none"
+					vector-effect="non-scaling-stroke"
+					class="stroke-ink"
+				/>
+			))
+		}
+		{Object.values(stars).map((star) => <circle cx={star.cx} cy={star.cy} r={star.r} class={star.fill} />)}
+	</svg>
+	<ul role="list" class="text-label">
+		{
+			Object.entries(stars).map(([name, star]) => (
+				<li class="absolute whitespace-nowrap" style={{ left: percent(star.label.x, width), top: percent(star.label.y, height) }}>
+					{name}
+				</li>
+			))
+		}
+	</ul>
+</div>

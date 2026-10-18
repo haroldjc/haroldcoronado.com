@@ -1,0 +1,47 @@
+---
+import TextLink from '../ui/TextLink.astro';
+
+type Props = {
+	value: string;
+	class?: string;
+};
+
+type Part = { text: string } | { label: string; href: string } | { strong: string } | { em: string };
+
+const { value, class: className } = Astro.props;
+
+const parse = (paragraph: string) => {
+	const parts: Part[] = [];
+	let last = 0;
+	for (const match of paragraph.matchAll(/\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g)) {
+		const [, label, href, strong, em] = match;
+		if (match.index > last) parts.push({ text: paragraph.slice(last, match.index) });
+		parts.push(href ? { label, href } : strong ? { strong } : { em });
+		last = match.index + match[0].length;
+	}
+	if (last < paragraph.length) parts.push({ text: paragraph.slice(last) });
+	return parts;
+};
+
+const paragraphs = value.trim().split(/\n\s*\n/).map((paragraph) => parse(paragraph.trim()));
+---
+
+<div class:list={['flex flex-col gap-md', className]}>
+	{
+		paragraphs.map((parts) => (
+			<p>
+				{parts.map((part) =>
+					'href' in part ? (
+						<TextLink href={part.href} size="inline" external={/^https?:\/\//.test(part.href)}>{part.label}</TextLink>
+					) : 'strong' in part ? (
+						<strong>{part.strong}</strong>
+					) : 'em' in part ? (
+						<em>{part.em}</em>
+					) : (
+						part.text
+					),
+				)}
+			</p>
+		))
+	}
+</div>

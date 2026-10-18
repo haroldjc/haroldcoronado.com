@@ -1,7 +1,7 @@
 ---
 type Props = {
 	href: string;
-	size?: 'large' | 'medium' | 'small';
+	size?: 'large' | 'medium' | 'small' | 'inline';
 	external?: boolean;
 	class?: string;
 };
@@ -12,6 +12,7 @@ const sizes = {
 	large: 'text-title [--line-offset:0px] [--line-size:3px] [--rest-offset:1px] [--rest-size:2px]',
 	medium: 'text-info',
 	small: 'text-label',
+	inline: '',
 };
 ---
 
@@ -19,7 +20,7 @@ const sizes = {
 	href={href}
 	target={external ? '_blank' : undefined}
 	rel={external ? 'noopener noreferrer' : undefined}
-	class:list={['link-line inline-flex whitespace-nowrap text-primary no-underline', sizes[size], className]}
+	class:list={['link-line no-underline', size !== 'inline' && 'inline-flex whitespace-nowrap text-primary', sizes[size], className]}
 >
 	<slot />
 </a>
