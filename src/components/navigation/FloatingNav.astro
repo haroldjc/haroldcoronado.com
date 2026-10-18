@@ -1,0 +1,160 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import Icon from '../Icon.astro';
+import TextLink from '../ui/TextLink.astro';
+import LangToggle from './LangToggle.astro';
+import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+
+type Props = {
+	id?: string;
+	links?: NavItem[];
+	current?: string;
+	lang?: Lang;
+	langHrefs?: LangHrefs;
+	contact?: NavItem & { external?: boolean };
+};
+
+const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, contact } = Astro.props;
+---
+
+<div data-floating-nav data-theme="ink" inert class="floating-nav group fixed top-lg right-margin z-50 hidden size-16 bg-transparent md:block">
+	<div
+		id={`${id}-panel`}
+		class="floating-nav-panel absolute top-0 right-0 flex w-90 flex-col border border-subtle bg-surface text-primary"
+	>
+		<div class="flex h-16 items-center pl-lg">
+			<Wordmark href="/" />
+		</div>
+		<div class="flex flex-col gap-xl px-lg pt-xs pb-lg">
+			<nav aria-label="Main">
+				<ul role="list">
+					{
+						links.map((link) => (
+							<li class="border-t border-default py-md">
+								<a
+									href={link.href}
+									aria-current={link.href === current ? 'page' : undefined}
+									class="text-title whitespace-nowrap text-primary no-underline transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-accent"
+								>
+									{link.label}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+			<div class="flex items-center justify-between">
+				<LangToggle current={lang} hrefs={langHrefs} />
+				{
+					contact && (
+						<TextLink href={contact.href} size="medium" external={contact.external}>
+							{contact.label}
+						</TextLink>
+					)
+				}
+			</div>
+		</div>
+	</div>
+	<button
+		type="button"
+		aria-label="Open menu"
+		aria-expanded="false"
+		aria-controls={`${id}-panel`}
+		data-floating-toggle
+		class="floating-nav-toggle absolute inset-0 flex items-center justify-center border border-subtle bg-surface text-icon"
+	>
+		<Icon name="menu" class="group-data-open:hidden" />
+		<Icon name="close" class="hidden group-data-open:block" />
+	</button>
+</div>
+
+<script>
+	const nav = document.querySelector<HTMLElement>('[data-floating-nav]');
+	const toggle = nav?.querySelector<HTMLButtonElement>('[data-floating-toggle]');
+	const hero = document.querySelector('[data-hero]') ?? document.querySelector('header');
+
+	if (nav && toggle && hero) {
+		const setOpen = (open: boolean) => {
+			nav.toggleAttribute('data-open', open);
+			toggle.setAttribute('aria-expanded', String(open));
+			toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+		};
+
+		new IntersectionObserver(([entry]) => {
+			const visible = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+			nav.toggleAttribute('data-visible', visible);
+			nav.inert = !visible;
+			if (!visible) setOpen(false);
+		}).observe(hero);
+
+		let leaveTimer = 0;
+		nav.addEventListener('pointerenter', (event) => {
+			if (event.pointerType !== 'mouse') return;
+			clearTimeout(leaveTimer);
+			setOpen(true);
+		});
+		nav.addEventListener('pointerleave', (event) => {
+			if (event.pointerType !== 'mouse') return;
+			leaveTimer = setTimeout(() => setOpen(false), 250);
+		});
+
+		toggle.addEventListener('click', () => setOpen(!nav.hasAttribute('data-open')));
+		nav.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+		document.addEventListener('click', (event) => {
+			if (nav.hasAttribute('data-open') && !nav.contains(event.target as Node)) setOpen(false);
+		});
+		document.addEventListener('keydown', (event) => {
+			if (event.key !== 'Escape' || !nav.hasAttribute('data-open')) return;
+			setOpen(false);
+			toggle.focus();
+		});
+	}
+</script>
+
+<style>
+	.floating-nav {
+		opacity: 0;
+		translate: 0 -12px;
+		transition:
+			opacity 300ms ease,
+			translate 450ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.floating-nav[data-visible] {
+		opacity: 1;
+		translate: 0;
+	}
+
+	.floating-nav-panel {
+		visibility: hidden;
+		clip-path: inset(0 0 calc(100% - 4rem) calc(100% - 4rem));
+		transition:
+			clip-path 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			visibility 0s 450ms;
+	}
+
+	.floating-nav[data-open] .floating-nav-panel {
+		visibility: visible;
+		clip-path: inset(0);
+		transition:
+			clip-path 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			visibility 0s;
+	}
+
+	.floating-nav-toggle {
+		transition:
+			background-color 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			color 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 450ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.floating-nav:not([data-open]) .floating-nav-toggle:hover {
+		background-color: var(--color-bg-inverse);
+		color: var(--color-icon-on-inverse);
+	}
+
+	.floating-nav[data-open] .floating-nav-toggle {
+		border-color: transparent;
+		background-color: transparent;
+	}
+</style>

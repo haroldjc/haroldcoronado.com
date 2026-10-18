@@ -1,33 +1,65 @@
 ---
+import SectionName from '../content/SectionName.astro';
 import FooterCell from './FooterCell.astro';
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
 type Props = {
 	links: [FooterLink, FooterLink, FooterLink, FooterLink];
+	headline?: string[];
+	label?: string;
+	size?: 'large' | 'compact';
 	theme?: 'paper' | 'red' | 'teal' | 'plum';
 	id?: string;
 	class?: string;
 };
 
-const { links, theme = 'plum', id, class: className } = Astro.props;
+const {
+	links,
+	headline = ['let’s build', 'something.'],
+	label = 'contact',
+	size = 'large',
+	theme = 'plum',
+	id,
+	class: className,
+} = Astro.props;
 const linkTones = ['bg-tonal-1', 'bg-tonal-2', 'bg-tonal-3', 'bg-tonal-4'];
 ---
 
-<footer id={id} data-theme={theme} class:list={['grid md:grid-cols-4', className]}>
-	{
-		links.map((link, i) => (
-			<FooterCell href={link.href} external={link.external} class:list={['h-30 md:h-75', linkTones[i]]}>
-				{link.label}
-			</FooterCell>
-		))
-	}
-	<FooterCell kind="note" class="h-40 bg-tonal-5 md:h-75 md:bg-tonal-2">
-		<slot>
-			<p>© 2026. Harold Coronado.</p>
-		</slot>
-	</FooterCell>
-	<FooterCell kind="blank" class="hidden bg-tonal-3 md:flex md:h-75" />
-	<FooterCell kind="blank" class="hidden bg-tonal-4 md:flex md:h-75" />
-	<FooterCell kind="blank" class="hidden bg-tonal-5 md:flex md:h-75" />
+<footer id={id} data-theme={theme} class={className}>
+	<div data-size={size} class="site-footer-head wrapper flex flex-col">
+		<SectionName label={label} />
+		<h2 class:list={['-ml-[0.055em]', size === 'large' ? 'text-display' : 'text-headline']}>
+			{headline.map((line) => <span class="block">{line}</span>)}
+		</h2>
+	</div>
+	<div class="grid md:grid-cols-4">
+		{
+			links.map((link, i) => (
+				<FooterCell href={link.href} external={link.external} class:list={['h-30 md:h-75', linkTones[i]]}>
+					{link.label}
+				</FooterCell>
+			))
+		}
+		<FooterCell kind="note" class="h-40 bg-tonal-5 md:h-75 md:bg-tonal-2">
+			<slot>
+				<p>© 2026 Harold Coronado.</p>
+			</slot>
+		</FooterCell>
+		<FooterCell kind="blank" class="hidden bg-tonal-3 md:flex md:h-75" />
+		<FooterCell kind="blank" class="hidden bg-tonal-4 md:flex md:h-75" />
+		<FooterCell kind="blank" class="hidden bg-tonal-5 md:flex md:h-75" />
+	</div>
 </footer>
+
+<style>
+	.site-footer-head {
+		row-gap: clamp(16px, 13.9474px + 0.5263vw, 23px);
+		padding-block: clamp(56px, 47.4962px + 2.1805vw, 85px) clamp(72px, 53.2331px + 4.812vw, 136px);
+	}
+
+	.site-footer-head[data-size='compact'] {
+		row-gap: clamp(12px, 10.8271px + 0.3008vw, 16px);
+		padding-block: clamp(48px, 38.6165px + 2.406vw, 80px) clamp(56px, 44.2707px + 3.0075vw, 96px);
+	}
+</style>

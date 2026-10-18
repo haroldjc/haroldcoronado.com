@@ -1,6 +1,6 @@
 export const hero = {
-	headline: ['I’m Harold', 'I build stuff.'],
-	highlight: 'End to end.',
+	headline: ['i’m Harold', 'i build stuff.'],
+	highlight: 'end to end.',
 	bio: 'Full stack developer and designer with over 15 years of experience building products that work — from prototype and design to deployed apps.',
 	words: ['design', 'develop', 'building'],
 	fitTo: 'building',

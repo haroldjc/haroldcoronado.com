@@ -1,6 +1,7 @@
 ---
 import Wordmark from '../brand/Wordmark.astro';
 import IconButton from '../ui/IconButton.astro';
+import FloatingNav from './FloatingNav.astro';
 import LangToggle from './LangToggle.astro';
 import MobileMenu from './MobileMenu.astro';
 import NavLink from './NavLink.astro';
@@ -11,7 +12,7 @@ type Props = {
 	current?: string;
 	lang?: Lang;
 	langHrefs?: LangHrefs;
-	contact?: NavItem;
+	contact?: NavItem & { external?: boolean };
 	class?: string;
 };
 
@@ -35,7 +36,32 @@ const { links = defaultNav, current, lang = 'en', langHrefs, contact, class: cla
 			</ul>
 		</nav>
 		<LangToggle current={lang} hrefs={langHrefs} />
-		<IconButton icon="menu" label="Open menu" data-menu-open="mobile-menu" aria-haspopup="dialog" class="md:hidden" />
+		<span data-menu-anchor class="size-12 md:hidden">
+			<IconButton
+				icon="menu"
+				label="Open menu"
+				data-menu-open="mobile-menu"
+				aria-haspopup="dialog"
+				class="data-pinned:fixed data-pinned:top-(--pin-top) data-pinned:right-margin data-pinned:z-40"
+			/>
+		</span>
 	</div>
 	<MobileMenu id="mobile-menu" links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
+	<FloatingNav links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
 </header>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-menu-anchor]').forEach((anchor) => {
+		const button = anchor.querySelector<HTMLElement>('[data-menu-open]');
+		const header = anchor.closest('header');
+		if (!button || !header) return;
+		const pinTop = (header.offsetHeight - anchor.offsetHeight) / 2;
+		button.style.setProperty('--pin-top', `${pinTop}px`);
+		new IntersectionObserver(
+			([entry]) => {
+				button.toggleAttribute('data-pinned', entry.boundingClientRect.top < pinTop - 0.5);
+			},
+			{ rootMargin: `-${pinTop}px 0px 0px 0px`, threshold: [0, 1] },
+		).observe(anchor);
+	});
+</script>

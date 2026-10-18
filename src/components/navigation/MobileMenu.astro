@@ -21,16 +21,16 @@ const { id = 'mobile-menu', links = defaultNav, current, lang, langHrefs, contac
 	id={id}
 	aria-label="Menu"
 	data-theme={theme}
-	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between border border-subtle bg-surface p-margin text-primary open:flex"
+	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-(--menu-top) pb-margin text-primary inset-ring inset-ring-(--color-border-subtle) open:flex"
 >
-	<div class="flex flex-col gap-2xl">
-		<div class="flex items-center justify-between">
+	<div class="flex flex-col">
+		<div class="flex h-20 items-center justify-between">
 			<Wordmark href="/" />
 			<form method="dialog">
 				<IconButton type="submit" icon="close" label="Close menu" />
 			</form>
 		</div>
-		<nav aria-label="Main">
+		<nav aria-label="Main" class="pt-xl">
 			<ul role="list">
 				{
 					links.map((link) => (
@@ -64,7 +64,32 @@ const { id = 'mobile-menu', links = defaultNav, current, lang, langHrefs, contac
 	document.querySelectorAll<HTMLButtonElement>('[data-menu-open]').forEach((button) => {
 		const dialog = document.getElementById(button.dataset.menuOpen ?? '');
 		if (!(dialog instanceof HTMLDialogElement)) return;
-		button.addEventListener('click', () => dialog.showModal());
+		button.addEventListener('click', () => {
+			const row = button.closest('header')?.offsetHeight ?? 0;
+			const top = button.getBoundingClientRect().top - (row - button.offsetHeight) / 2;
+			dialog.style.setProperty('--menu-top', `${Math.max(top, 0)}px`);
+			dialog.showModal();
+		});
 		dialog.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', () => dialog.close()));
 	});
 </script>
+
+<style>
+	.mobile-menu {
+		translate: 0 -100%;
+		transition-property: translate, display, overlay;
+		transition-behavior: allow-discrete;
+		transition-duration: 300ms;
+		transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+	}
+
+	.mobile-menu[open] {
+		translate: 0 0;
+		transition-duration: 450ms;
+		transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
+		@starting-style {
+			translate: 0 -100%;
+		}
+	}
+</style>
