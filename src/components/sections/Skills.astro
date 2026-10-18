@@ -28,26 +28,73 @@ const { headline, pillars, processTitle, stages, lanes } = Astro.props;
 			<div class="layout-grid gap-y-xl">
 				{stages.map((stage) => <Stage {...stage} class="col-span-2" />)}
 			</div>
-			<div class="layout-grid text-info text-paper">
-				<div class="relative col-[1/span_3] row-start-1 h-28 md:col-[1/span_6]">
+			<div data-lanes class="layout-grid text-info text-paper">
+				<div class="lane relative col-[1/span_3] row-start-1 h-28 md:col-[1/span_6]" style="--lane: 0">
 					<span aria-hidden="true" class="absolute inset-0 bg-red mix-blend-multiply"></span>
 					<p class="relative px-md pt-5">{lanes.design}</p>
 				</div>
 				<div
-					class="relative col-[2/-1] row-start-1 flex h-28 flex-col justify-between md:col-[5/-1] md:grid md:grid-cols-subgrid md:content-start"
+					style="--lane: 1"
+					class="lane relative col-[2/-1] row-start-1 flex h-28 flex-col justify-between md:col-[5/-1] md:grid md:grid-cols-subgrid md:content-start"
 				>
 					<span aria-hidden="true" class="absolute inset-0 bg-teal mix-blend-multiply"></span>
 					<p class="relative px-md pt-5 md:col-span-2">{lanes.overlap}</p>
 					<p class="relative self-end px-md pb-9 md:col-start-3 md:self-auto md:pt-5 md:pb-0">{lanes.development}</p>
 				</div>
-				<div class="relative col-span-full row-start-2 -mt-lg grid grid-cols-subgrid gap-y-xs pt-9 pb-md">
+				<div class="lane relative col-span-full row-start-2 -mt-lg grid grid-cols-subgrid gap-y-xs pt-9 pb-md" style="--lane: 2">
 					<span aria-hidden="true" class="absolute inset-0 bg-plum mix-blend-multiply"></span>
 					<p class="relative col-span-full px-md">{lanes.agents}</p>
 					<ul role="list" class="relative col-span-full grid grid-cols-subgrid gap-y-2xs text-body">
-						{lanes.tasks.map((task) => <li class="col-span-2 px-md">{task}</li>)}
+						{lanes.tasks.map((task, i) => <li class="col-span-2 px-md" style={`--i: ${i}`}>{task}</li>)}
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+<script>
+	const lanes = document.querySelector<HTMLElement>('[data-lanes]');
+
+	if (lanes && !matchMedia('(prefers-reduced-motion: reduce)').matches && lanes.getBoundingClientRect().top > innerHeight) {
+		lanes.dataset.lanes = 'pending';
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (!entry.isIntersecting) return;
+				lanes.dataset.lanes = 'shown';
+				observer.disconnect();
+			},
+			{ threshold: 0.5 },
+		);
+		observer.observe(lanes);
+	}
+</script>
+
+<style>
+	[data-lanes='pending'] .lane > span {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	[data-lanes='pending'] .lane > p,
+	[data-lanes='pending'] li {
+		opacity: 0;
+		translate: 0 0.5em;
+	}
+
+	[data-lanes='shown'] .lane > span {
+		clip-path: inset(0);
+		transition: clip-path 1100ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--lane) * 300ms);
+	}
+
+	[data-lanes='shown'] .lane > p,
+	[data-lanes='shown'] li {
+		transition:
+			opacity 600ms ease-out,
+			translate 600ms cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: calc(400ms + var(--lane) * 300ms);
+	}
+
+	[data-lanes='shown'] li {
+		transition-delay: calc(1100ms + var(--i) * 70ms);
+	}
+</style>
