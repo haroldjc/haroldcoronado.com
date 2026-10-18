@@ -1,79 +1,232 @@
 ---
+import { constellations, grid, height, layouts, percent, pool, width } from './constellations';
+
 type Props = {
 	class?: string;
 };
 
 const { class: className } = Astro.props;
 
-const width = 1720;
-const height = 1220;
-const grid = { x: 42, y: 60, height: 1108, gap: 48, dot: 2 };
+const [first] = layouts;
 const bleed = { x: -4800, width: width + 9600 };
-const hiddenDots = [
-	[812, 302],
-	[860, 302],
-	[1244, 350],
-	[1148, 590],
-	[908, 638],
-	[1340, 974],
-	[908, 1022],
-];
-const stars = {
-	meissa: { cx: 1004, cy: 110, r: 7, fill: 'fill-ink', label: { x: 980, y: 77 } },
-	betelgeuse: { cx: 764, cy: 302, r: 16, fill: 'fill-red', label: { x: 790, y: 292 } },
-	bellatrix: { cx: 1196, cy: 350, r: 8, fill: 'fill-ink', label: { x: 1214, y: 340 } },
-	mintaka: { cx: 1100, cy: 590, r: 9, fill: 'fill-plum', label: { x: 1119, y: 580 } },
-	alnilam: { cx: 1052, cy: 638, r: 9, fill: 'fill-plum', label: { x: 1028, y: 653 } },
-	alnitak: { cx: 956, cy: 638, r: 9, fill: 'fill-plum', label: { x: 892, y: 628 } },
-	saiph: { cx: 860, cy: 1022, r: 8, fill: 'fill-ink', label: { x: 878, y: 1012 } },
-	rigel: { cx: 1292, cy: 974, r: 14, fill: 'fill-teal', label: { x: 1316, y: 964 } },
-};
-const lines = [
-	['alnitak', 'betelgeuse', 'meissa', 'bellatrix', 'mintaka'],
-	['alnitak', 'alnilam', 'mintaka', 'rigel'],
-	['alnitak', 'saiph'],
-] as const;
-const percent = (value: number, total: number) => `${(value / total) * 100}%`;
+const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 ---
 
-<div class:list={['relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip', className]}>
-	<svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" class="absolute inset-0 size-full overflow-visible">
+<div
+	data-constellation
+	role="img"
+	aria-label={`Constellations: ${constellations.map((c) => c.name).join(', ')}`}
+	class:list={['relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip', className]}
+>
+	<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible">
 		<defs>
 			<pattern id="constellation-grid" x={grid.x} y={grid.y} width={grid.gap} height={grid.gap} patternUnits="userSpaceOnUse">
 				<circle cx={grid.dot} cy={grid.dot} r={grid.dot} class="fill-(--color-border-subtle)" />
 			</pattern>
 			<mask id="constellation-gaps" maskUnits="userSpaceOnUse" x={bleed.x} y="0" width={bleed.width} height={height}>
 				<rect x={bleed.x} width={bleed.width} height={height} fill="white" />
-				{hiddenDots.map(([cx, cy]) => <circle {cx} {cy} r={grid.dot * 2} fill="black" />)}
+				{
+					range(pool.holes).map((i) => {
+						const hole = first.holes[i];
+						return (
+							<circle
+								cx={hole?.cx ?? 0}
+								cy={hole?.cy ?? 0}
+								r={grid.dot * 2}
+								fill="black"
+								class="constellation-hole"
+								style={hole ? undefined : 'opacity: 0'}
+							/>
+						);
+					})
+				}
 			</mask>
 		</defs>
 		<rect
 			x={bleed.x}
 			y={grid.y}
 			width={bleed.width}
-			height={grid.height}
+			height={(grid.rows - 1) * grid.gap + grid.dot * 2}
 			fill="url(#constellation-grid)"
 			mask="url(#constellation-gaps)"
 		/>
 		{
-			lines.map((path) => (
-				<polyline
-					points={path.map((name) => `${stars[name].cx},${stars[name].cy}`).join(' ')}
-					fill="none"
-					vector-effect="non-scaling-stroke"
-					class="stroke-ink"
-				/>
-			))
+			range(pool.segments).map((i) => {
+				const segment = first.segments[i];
+				return (
+					<line
+						x2="1"
+						vector-effect="non-scaling-stroke"
+						class="constellation-line stroke-ink"
+						style={
+							segment
+								? `translate: ${segment.x}px ${segment.y}px; rotate: ${segment.angle}deg; scale: ${segment.length} 1`
+								: 'scale: 0 1; opacity: 0'
+						}
+					/>
+				);
+			})
 		}
-		{Object.values(stars).map((star) => <circle cx={star.cx} cy={star.cy} r={star.r} class={star.fill} />)}
-	</svg>
-	<ul role="list" class="text-label">
 		{
-			Object.entries(stars).map(([name, star]) => (
-				<li class="absolute whitespace-nowrap" style={{ left: percent(star.label.x, width), top: percent(star.label.y, height) }}>
-					{name}
-				</li>
-			))
+			range(pool.stars).map((i) => {
+				const star = first.stars[i];
+				return (
+					<circle
+						r="1"
+						class:list={['constellation-star', star?.fill]}
+						style={star ? `translate: ${star.cx}px ${star.cy}px; scale: ${star.r}` : 'scale: 0; opacity: 0'}
+					/>
+				);
+			})
+		}
+	</svg>
+	<ul class="text-label">
+		{
+			range(pool.stars).map((i) => {
+				const star = first.stars[i];
+				return (
+					<li
+						class="constellation-label absolute whitespace-nowrap"
+						style={
+							star
+								? `left: ${percent(star.labelX, width)}; top: ${percent(star.labelY, height)}; translate: ${star.labelOffset}`
+								: 'opacity: 0'
+						}
+					>
+						{star?.name}
+					</li>
+				);
+			})
 		}
 	</ul>
 </div>
+
+<script>
+	import { height, layouts, percent, tones, width } from './constellations';
+
+	const root = document.querySelector<HTMLElement>('[data-constellation]');
+	const HOLD = 6000;
+	const FADE = 500;
+	const MOVE = 1400;
+
+	if (root && layouts.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		const stars = [...root.querySelectorAll<SVGCircleElement>('.constellation-star')];
+		const lines = [...root.querySelectorAll<SVGLineElement>('.constellation-line')];
+		const holes = [...root.querySelectorAll<SVGCircleElement>('.constellation-hole')];
+		const labels = [...root.querySelectorAll<HTMLElement>('.constellation-label')];
+		const fills = Object.values(tones);
+		const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+		const jump = (el: SVGElement | HTMLElement, update: () => void) => {
+			el.style.transition = 'none';
+			update();
+			el.getBoundingClientRect();
+			el.style.transition = '';
+		};
+
+		let current = 0;
+		let timer = 0;
+		let visible = false;
+		let busy = false;
+
+		const schedule = () => {
+			clearTimeout(timer);
+			if (visible && !document.hidden && !busy) timer = setTimeout(advance, HOLD);
+		};
+
+		const advance = async () => {
+			busy = true;
+			const next = layouts[(current + 1) % layouts.length];
+
+			for (const el of [...labels, ...holes, ...lines]) el.style.opacity = '0';
+			await wait(FADE);
+
+			stars.forEach((el, i) => {
+				const star = next.stars[i];
+				if (!star) {
+					el.style.scale = '0';
+					el.style.opacity = '0';
+					return;
+				}
+				const place = () => {
+					el.style.translate = `${star.cx}px ${star.cy}px`;
+					el.classList.remove(...fills);
+					el.classList.add(star.fill);
+				};
+				if (el.style.opacity === '0') jump(el, place);
+				else place();
+				el.style.scale = String(star.r);
+				el.style.opacity = '1';
+			});
+			await wait(MOVE);
+
+			lines.forEach((el, i) => {
+				const segment = next.segments[i];
+				jump(el, () => {
+					el.style.scale = '0 1';
+					el.style.opacity = segment ? '1' : '0';
+					if (!segment) return;
+					el.style.translate = `${segment.x}px ${segment.y}px`;
+					el.style.rotate = `${segment.angle}deg`;
+					el.style.setProperty('--draw', `${segment.duration}ms`);
+					el.style.setProperty('--delay', `${segment.delay}ms`);
+				});
+				if (segment) el.style.scale = `${segment.length} 1`;
+			});
+			await wait(next.drawTime);
+
+			holes.forEach((el, i) => {
+				const hole = next.holes[i];
+				if (hole) {
+					el.setAttribute('cx', String(hole.cx));
+					el.setAttribute('cy', String(hole.cy));
+				}
+				el.style.opacity = hole ? '1' : '0';
+			});
+			labels.forEach((el, i) => {
+				const star = next.stars[i];
+				if (star) {
+					el.textContent = star.name;
+					el.style.left = percent(star.labelX, width);
+					el.style.top = percent(star.labelY, height);
+					el.style.translate = star.labelOffset;
+				}
+				el.style.opacity = star ? '1' : '0';
+			});
+
+			current = (current + 1) % layouts.length;
+			busy = false;
+			schedule();
+		};
+
+		new IntersectionObserver(
+			([entry]) => {
+				visible = entry.isIntersecting;
+				if (visible) schedule();
+				else clearTimeout(timer);
+			},
+			{ threshold: 0.3 },
+		).observe(root);
+		document.addEventListener('visibilitychange', () => (document.hidden ? clearTimeout(timer) : schedule()));
+	}
+</script>
+
+<style>
+	.constellation-star {
+		transition:
+			translate 1400ms cubic-bezier(0.65, 0, 0.35, 1),
+			scale 1400ms cubic-bezier(0.65, 0, 0.35, 1),
+			fill 1400ms ease,
+			opacity 700ms ease;
+	}
+
+	.constellation-line {
+		transition:
+			opacity 500ms ease-out,
+			scale var(--draw, 0ms) linear var(--delay, 0ms);
+	}
+
+	.constellation-label,
+	.constellation-hole {
+		transition: opacity 500ms ease-out;
+	}
+</style>
