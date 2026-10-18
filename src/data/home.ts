@@ -2,11 +2,12 @@ export const hero = {
 	headline: ['I’m Harold', 'I build stuff.'],
 	highlight: 'End to end.',
 	bio: 'Full stack developer and designer with over 15 years of experience building products that work — from prototype and design to deployed apps.',
-	word: 'building',
+	words: ['design', 'develop', 'building'],
+	fitTo: 'building',
 };
 
 export const skills = {
-	headline: ['three disciplines.', 'one person.'],
+	headline: ['product engineering', 'at heart.'],
 	pillars: [
 		{
 			title: 'design',

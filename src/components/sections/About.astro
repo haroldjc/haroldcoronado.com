@@ -20,8 +20,8 @@ const bodies = [
 const percent = (value: number, total: number) => `${(value / total) * 100}%`;
 ---
 
-<section id="about" data-theme="paper" aria-labelledby="about-title" class="overflow-x-clip">
-	<div class="relative mx-auto aspect-[1720/1220] max-w-frame overflow-y-clip">
+<section data-theme="paper" aria-labelledby="about-title" class="overflow-x-clip">
+	<div class="relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip">
 		<svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" class="absolute inset-0 size-full overflow-visible">
 			<circle cx={sun.cx} cy={sun.cy} r={sun.r} class="fill-red mix-blend-multiply" />
 			{
@@ -42,7 +42,7 @@ const percent = (value: number, total: number) => `${(value / total) * 100}%`;
 		</ul>
 	</div>
 
-	<div class="wrapper flex flex-col gap-4xl py-section">
+	<div id="about" class="wrapper flex flex-col gap-4xl py-section">
 		<div class="flex flex-col gap-lg">
 			<SectionName label="about" />
 			<div class="layout-grid gap-y-lg">
