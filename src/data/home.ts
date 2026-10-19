@@ -64,7 +64,7 @@ export const work = {
 			location: 'remote, USA',
 			role: 'product engineer',
 			years: '2025 — now',
-			description: `We help companies reach their goals. I\'m in charge of the whole custom websites' lifecycle, from the design to deployment.`,
+			description: `We help companies reach their goals. I\'m in charge of the whole website lifecycle, from the design to deployment.`,
 		},
 		{
 			company: 'perceptyx',

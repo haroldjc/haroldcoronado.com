@@ -10,7 +10,19 @@ const { href, class: className } = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 
-<Tag href={href} class:list={['flex items-center gap-xs text-info font-bold whitespace-nowrap text-primary no-underline', className]}>
-	<LogoIcon class="size-(--size-logo) shrink-0 text-icon" />
+<Tag
+	href={href}
+	class:list={[
+		'group flex items-center gap-xs text-info font-bold whitespace-nowrap text-primary no-underline',
+		href && '-m-xs p-xs transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-inverse hover:text-on-inverse',
+		className,
+	]}
+>
+	<LogoIcon
+		class:list={[
+			'size-(--size-logo) shrink-0 text-icon',
+			href && 'transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-icon-on-inverse',
+		]}
+	/>
 	Harold Coronado
 </Tag>
