@@ -36,32 +36,16 @@ const { links = defaultNav, current, lang = 'en', langHrefs, contact, class: cla
 			</ul>
 		</nav>
 		<LangToggle current={lang} hrefs={langHrefs} />
-		<span data-menu-anchor class="size-12 md:hidden">
+		<span class="size-12 md:hidden">
 			<IconButton
 				icon="menu"
 				label="Open menu"
 				data-menu-open="mobile-menu"
 				aria-haspopup="dialog"
-				class="data-pinned:fixed data-pinned:top-(--pin-top) data-pinned:right-margin data-pinned:z-40"
+				class="fixed top-4 right-margin z-40"
 			/>
 		</span>
 	</div>
 	<MobileMenu id="mobile-menu" links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
 	<FloatingNav links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
 </header>
-
-<script>
-	document.querySelectorAll<HTMLElement>('[data-menu-anchor]').forEach((anchor) => {
-		const button = anchor.querySelector<HTMLElement>('[data-menu-open]');
-		const header = anchor.closest('header');
-		if (!button || !header) return;
-		const pinTop = (header.offsetHeight - anchor.offsetHeight) / 2;
-		button.style.setProperty('--pin-top', `${pinTop}px`);
-		new IntersectionObserver(
-			([entry]) => {
-				button.toggleAttribute('data-pinned', entry.boundingClientRect.top < pinTop - 0.5);
-			},
-			{ rootMargin: `-${pinTop}px 0px 0px 0px`, threshold: [0, 1] },
-		).observe(anchor);
-	});
-</script>

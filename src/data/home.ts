@@ -1,7 +1,7 @@
 export const hero = {
 	headline: ['i’m Harold', 'i build stuff.'],
 	highlight: 'end to end.',
-	bio: 'Full stack developer and designer with over 15 years of experience building products that work — from prototype and design to deployed apps.',
+	bio: `Full stack developer and designer, based in Lima, Perú, with over 15 years of experience building products that work, from prototype and design to deployed apps.`,
 	words: ['design', 'develop', 'building'],
 	fitTo: 'building',
 };
@@ -25,7 +25,7 @@ export const skills = {
 			tools: ['Claude Code', 'Coding & review agents', 'MCP & Figma workflows', 'Prompt & context design', 'Automation & evals'],
 		},
 	],
-	processTitle: 'from idea to deploy.',
+	processTitle: 'from idea to deployment.',
 	stages: [
 		{ name: 'idea', description: 'Brief, research and constraints.' },
 		{ name: 'prototype', description: 'Flows and interfaces, tested early.' },
@@ -91,7 +91,7 @@ export const work = {
 
 export const about = {
 	headline: ['design, tech,', 'science and art.'],
-	note: ['off the clock,', 'on youtube and in print'],
+	note: ['about the things', 'that motivate me.'],
 	intro: `I am passionate about many things. Beyond my professional work, I enjoy reading books on popular science as well as science fiction. This combination led me to create a YouTube channel called [Odisea del Cosmos](https://www.youtube.com/@OdiseadelCosmos), dedicated to exploring the science found within science fiction, both in film and literature. Currently, I am working on a related project called *Odisea Axis*.
 	
 	I love art in all its forms, including film and music, ranging from blues to hip-hop, with a particular emphasis on rock and, especially in the last ten years, jazz.`,
@@ -101,7 +101,7 @@ export const about = {
 			label: 'youtube',
 			title: 'odisea del cosmos',
 			description: 'A channel where I explain the science in science fiction media. In Spanish only.',
-			link: { label: 'watch the channel →', href: '#', external: true },
+			link: { label: 'watch the channel →', href: 'https://www.youtube.com/@OdiseadelCosmos', external: true },
 		},
 		{
 			label: 'book · 2027',
