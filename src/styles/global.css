@@ -189,7 +189,9 @@
   width: auto;
   height: auto;
   mix-blend-mode: normal;
-  animation: 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
 }
 
 ::view-transition-old(*.roll) {
