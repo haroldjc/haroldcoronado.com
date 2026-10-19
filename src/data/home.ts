@@ -88,7 +88,7 @@ export const work = {
 			description: 'Front-end developer working in different projects: marketing websites, Ionic apps and more.',
 		},
 	],
-	resume: { label: 'full résumé →', href: '#' },
+	resume: { label: 'full résumé →', href: '/resume/harold-coronado-resume.pdf' },
 };
 
 export const about = {

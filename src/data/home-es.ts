@@ -90,7 +90,7 @@ export const work: typeof en.work = {
 			description: 'Desarrollador front-end en distintos proyectos: sitios de marketing, apps con Ionic y más.',
 		},
 	],
-	resume: { label: 'currículum completo →', href: '#' },
+	resume: { label: 'currículum completo →', href: '/resume/harold-coronado-cv.pdf' },
 };
 
 export const about: typeof en.about = {

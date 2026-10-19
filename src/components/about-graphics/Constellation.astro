@@ -25,24 +25,6 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 			<pattern id="constellation-grid" x={grid.x} y={grid.y} width={grid.gap} height={grid.gap} patternUnits="userSpaceOnUse">
 				<circle cx={grid.dot} cy={grid.dot} r={grid.dot} class="fill-(--color-border-subtle)" />
 			</pattern>
-			<mask id="constellation-gaps" maskUnits="userSpaceOnUse" x={bleed.x} y="0" width={bleed.width} height={height}>
-				<rect x={bleed.x} width={bleed.width} height={height} fill="white" />
-				{
-					range(pool.holes).map((i) => {
-						const hole = first.holes[i];
-						return (
-							<circle
-								cx={hole?.cx ?? 0}
-								cy={hole?.cy ?? 0}
-								r={grid.dot * 2}
-								fill="black"
-								class="constellation-hole"
-								style={hole ? undefined : 'opacity: 0'}
-							/>
-						);
-					})
-				}
-			</mask>
 		</defs>
 		<rect
 			x={bleed.x}
@@ -50,8 +32,23 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 			width={bleed.width}
 			height={(grid.rows - 1) * grid.gap + grid.dot * 2}
 			fill="url(#constellation-grid)"
-			mask="url(#constellation-gaps)"
 		/>
+	</svg>
+	<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible will-change-transform">
+		{
+			range(pool.holes).map((i) => {
+				const hole = first.holes[i];
+				return (
+					<circle
+						cx={hole?.cx ?? 0}
+						cy={hole?.cy ?? 0}
+						r={grid.dot * 2}
+						class="constellation-hole fill-(--color-bg-surface)"
+						style={hole ? undefined : 'opacity: 0'}
+					/>
+				);
+			})
+		}
 		{
 			range(pool.segments).map((i) => {
 				const segment = first.segments[i];
