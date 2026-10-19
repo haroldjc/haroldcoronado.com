@@ -25,7 +25,9 @@ const langs: { code: Lang; name: string }[] = [
 				aria-current={code === current ? 'true' : undefined}
 				class:list={[
 					'px-sm py-2xs text-label no-underline',
-					code === current ? 'bg-inverse text-on-inverse' : 'text-primary',
+					code === current
+						? 'bg-inverse text-on-inverse'
+						: 'text-primary transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-segment-hover hover:text-accent',
 				]}
 			>
 				{code}

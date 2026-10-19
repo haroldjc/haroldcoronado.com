@@ -14,6 +14,7 @@
   --background-color-field: var(--color-bg-field);
   --background-color-inverse: var(--color-bg-inverse);
   --background-color-inverse-hover: var(--color-bg-inverse-hover);
+  --background-color-segment-hover: var(--color-bg-segment-hover);
   --background-color-disabled: var(--color-bg-disabled);
   --background-color-tonal-1: var(--color-tonal-1);
   --background-color-tonal-2: var(--color-tonal-2);

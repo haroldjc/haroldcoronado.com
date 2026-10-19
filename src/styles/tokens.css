@@ -107,6 +107,7 @@
   --color-bg-field: var(--color-neutral-50);
   --color-bg-inverse: var(--color-neutral-900);
   --color-bg-inverse-hover: var(--color-neutral-700);
+  --color-bg-segment-hover: transparent;
   --color-bg-disabled: var(--color-neutral-300);
   --color-text-primary: var(--color-neutral-900);
   --color-text-secondary: var(--color-neutral-600);
@@ -135,6 +136,7 @@
   --color-bg-field: var(--color-red-400);
   --color-bg-inverse: var(--color-neutral-900);
   --color-bg-inverse-hover: var(--color-red-900);
+  --color-bg-segment-hover: transparent;
   --color-bg-disabled: var(--color-red-300);
   --color-text-primary: var(--color-neutral-900);
   --color-text-secondary: var(--color-red-900);
@@ -163,6 +165,7 @@
   --color-bg-field: var(--color-teal-400);
   --color-bg-inverse: var(--color-neutral-900);
   --color-bg-inverse-hover: var(--color-teal-900);
+  --color-bg-segment-hover: transparent;
   --color-bg-disabled: var(--color-teal-300);
   --color-text-primary: var(--color-neutral-900);
   --color-text-secondary: var(--color-teal-900);
@@ -191,6 +194,7 @@
   --color-bg-field: var(--color-plum-700);
   --color-bg-inverse: var(--color-neutral-100);
   --color-bg-inverse-hover: var(--color-neutral-300);
+  --color-bg-segment-hover: var(--color-plum-400);
   --color-bg-disabled: var(--color-plum-400);
   --color-text-primary: var(--color-neutral-100);
   --color-text-secondary: var(--color-plum-200);
@@ -219,6 +223,7 @@
   --color-bg-field: var(--color-neutral-800);
   --color-bg-inverse: var(--color-neutral-100);
   --color-bg-inverse-hover: var(--color-neutral-300);
+  --color-bg-segment-hover: transparent;
   --color-bg-disabled: var(--color-neutral-700);
   --color-text-primary: var(--color-neutral-100);
   --color-text-secondary: var(--color-neutral-400);
