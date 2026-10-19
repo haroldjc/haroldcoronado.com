@@ -22,7 +22,7 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 	aria-label={ui[lang].menu}
 	tabindex="-1"
 	data-theme={theme}
-	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-(--menu-top) pb-margin text-primary inset-ring inset-ring-(--color-border-subtle) focus:outline-none open:flex"
+	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pb-margin text-primary inset-ring inset-ring-(--color-border-subtle) focus:outline-none open:flex"
 >
 	<div class="flex flex-col">
 		<div class="flex h-20 items-center justify-between">
@@ -66,9 +66,6 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 		const dialog = document.getElementById(button.dataset.menuOpen ?? '');
 		if (!(dialog instanceof HTMLDialogElement)) return;
 		button.addEventListener('click', () => {
-			const row = button.closest('header')?.offsetHeight ?? 0;
-			const top = button.getBoundingClientRect().top - (row - button.offsetHeight) / 2;
-			dialog.style.setProperty('--menu-top', `${Math.max(top, 0)}px`);
 			dialog.showModal();
 			dialog.focus();
 		});

@@ -42,10 +42,18 @@ const { lang = 'en', links = navLinks[lang], current, langHrefs, contact, class:
 				label={ui[lang].openMenu}
 				data-menu-open="mobile-menu"
 				aria-haspopup="dialog"
-				class="fixed top-4 right-margin z-40"
+				class="fixed top-4 right-margin z-40 transform-gpu md:hidden"
 			/>
 		</span>
 	</div>
 	<MobileMenu id="mobile-menu" links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
 	<FloatingNav links={links} current={current} lang={lang} langHrefs={langHrefs} contact={contact} />
 </header>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-menu-open]').forEach((button) => {
+		const theme = button.closest<HTMLElement>('[data-theme]')?.dataset.theme;
+		if (theme) button.dataset.theme = theme;
+		document.body.prepend(button);
+	});
+</script>
