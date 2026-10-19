@@ -1,16 +1,16 @@
 import * as en from './home';
 
 export const hero: typeof en.hero = {
-	headline: ['soy Harold', 'hago cosas.'],
-	highlight: 'de A a Z.',
-	bio: `Desarrollador full stack y diseñador, basado en Lima, Perú, con más de 15 años de experiencia construyendo productos que funcionan, desde el prototipo y el diseño hasta apps en producción.`,
-	words: ['diseño', 'desarrollo', 'construyo'],
+	headline: ['soy Harold.', 'programo.'],
+	highlight: 'y diseño.',
+	bio: `Desarrollador full stack y diseñador, con sede en Lima, Perú, con más de 15 años de experiencia construyendo productos que funcionan, desde el prototipo y el diseño hasta apps en producción.`,
+	words: ['diseño', 'desarrollo', 'producto'],
 	fitTo: en.hero.fitTo,
 };
 
 export const skills: typeof en.skills = {
 	label: 'habilidades',
-	headline: ['ingeniería de producto', 'de corazón.'],
+	headline: ['ingeniería de producto', 'desde cero.'],
 	pillars: [
 		{
 			title: 'diseño',
@@ -20,18 +20,18 @@ export const skills: typeof en.skills = {
 		{
 			title: 'desarrollo',
 			description: 'Del modelo de datos al front end en producción.',
-			tools: ['TypeScript', 'React / Next.js', 'Node.js y APIs', 'Bases de datos', 'Nube y CI/CD'],
+			tools: ['TypeScript', 'React / Next.js', 'Node.js y APIs', 'Bases de datos', 'Cloud y CI/CD'],
 		},
 		{
 			title: 'ia',
-			description: 'Agentes en el proceso, del primer boceto al despliegue.',
-			tools: ['Claude Code', 'Agentes de código y revisión', 'Flujos con MCP y Figma', 'Diseño de prompts y contexto', 'Automatización y evals'],
+			description: 'Agentes de IA en el proceso, del primer boceto al despliegue.',
+			tools: ['Claude Code', 'Agentes de código y review', 'Flujos con MCP y Figma', 'Diseño de prompts y contexto', 'Automatización y evals'],
 		},
 	],
-	processTitle: 'de la idea al despliegue.',
+	processTitle: 'desde la idea al despliegue.',
 	stages: [
 		{ name: 'idea', description: 'Brief, investigación y restricciones.' },
-		{ name: 'prototipo', description: 'Flujos e interfaces, probados desde temprano.' },
+		{ name: 'prototipo', description: 'Flujos e interfaces, probados desde el principio.' },
 		{ name: 'sistema', description: 'Tokens y componentes compartidos entre diseño y código.' },
 		{ name: 'desarrollo', description: 'Front end y APIs tipados y probados.' },
 		{ name: 'revisión', description: 'Pruebas, accesibilidad y revisión de código.' },
@@ -64,30 +64,30 @@ export const work: typeof en.work = {
 		{
 			company: 'commence',
 			location: 'remoto, EE. UU.',
-			role: 'ingeniero de producto senior',
+			role: 'product engineer',
 			years: '2025 — hoy',
-			description: 'Qué estuvo a tu cargo, con quién trabajaste y un resultado. Texto provisional — reemplázalo por el rol real.',
+			description: 'Ayudamos a las empresas a alcanzar sus objetivos. Estoy a cargo de todo el ciclo de vida del sitio web, desde el diseño hasta el despliegue.',
 		},
 		{
 			company: 'perceptyx',
 			location: 'remoto, EE. UU.',
 			role: 'desarrollador hubspot',
 			years: '2021 — 2025',
-			description: 'Qué estuvo a tu cargo, con quién trabajaste y un resultado. Texto provisional — reemplázalo por el rol real.',
+			description: 'Tema a medida para el sitio de marketing en la plataforma HubSpot, usando funciones nativas como HubDB y sus APIs.',
 		},
 		{
 			company: 'waggl',
 			location: 'remoto, EE. UU.',
 			role: 'desarrollador full-stack',
 			years: '2016 — 2021',
-			description: 'Qué estuvo a tu cargo, con quién trabajaste y un resultado. Texto provisional — reemplázalo por el rol real.',
+			description: 'Sitio de marketing de la empresa, con WordPress y un CMS a medida.',
 		},
 		{
 			company: 'tecla labs',
 			location: 'Lima, Perú',
 			role: 'desarrollador web',
 			years: '2014 — 2017',
-			description: 'Qué estuvo a tu cargo, con quién trabajaste y un resultado. Texto provisional — reemplázalo por el rol real.',
+			description: 'Desarrollador front-end en distintos proyectos: sitios de marketing, apps con Ionic y más.',
 		},
 	],
 	resume: { label: 'currículum completo →', href: '#' },
@@ -97,15 +97,15 @@ export const about: typeof en.about = {
 	label: 'sobre mí',
 	headline: ['diseño, tecnología,', 'ciencia y arte.'],
 	note: ['sobre las cosas', 'que me motivan.'],
-	intro: `Me apasionan muchas cosas. Más allá de mi trabajo profesional, disfruto leer libros de divulgación científica y de ciencia ficción. Esa combinación me llevó a crear un canal de YouTube llamado [Odisea del Cosmos](https://www.youtube.com/@OdiseadelCosmos), dedicado a explorar la ciencia que hay en la ciencia ficción, tanto en el cine como en la literatura. Actualmente estoy trabajando en un proyecto relacionado llamado *Odisea Axis*.
+	intro: `Me apasionan muchas cosas. Más allá de mi trabajo profesional, disfruto leer libros de divulgación científica y de ciencia ficción. Esa combinación me llevó a crear un canal de YouTube llamado [Odisea del Cosmos](https://www.youtube.com/@OdiseadelCosmos), dedicado a explicar la ciencia de la ciencia ficción, tanto en el cine como en la literatura. Actualmente estoy trabajando en un proyecto relacionado llamado *Odisea Axis*.
 
-	Amo el arte en todas sus formas, incluidos el cine y la música, desde el blues hasta el hip-hop, con especial énfasis en el rock y, sobre todo en los últimos diez años, el jazz.`,
+	Amo el arte en todas sus formas, incluidos el cine y la música, desde el blues hasta el hip-hop, con especial énfasis en el rock y, sobre todo en la última década, el jazz.`,
 	planets: ['tecnología', 'diseño', 'ciencia', 'arte'],
 	items: [
 		{
 			label: 'youtube',
 			title: 'odisea del cosmos',
-			description: 'Un canal donde explico la ciencia detrás de la ciencia ficción en el cine y la literatura.',
+			description: 'Un canal donde explico la ciencia de la ciencia ficción en el cine, la literatura y más.',
 			link: { label: 'ver el canal →', href: 'https://www.youtube.com/@OdiseadelCosmos', external: true },
 		},
 		{
@@ -118,7 +118,7 @@ export const about: typeof en.about = {
 
 export const contact: typeof en.contact = {
 	label: 'contacto',
-	headline: ['hagamos', 'algo.'],
+	headline: ['constru-', 'yamos algo.'],
 	links: [
 		{ label: 'correo ↗', href: 'mailto:hola@haroldcoronado.com', external: false },
 		{ label: 'github ↗', href: 'https://github.com/haroldjc/', external: true },

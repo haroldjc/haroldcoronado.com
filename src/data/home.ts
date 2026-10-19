@@ -85,7 +85,7 @@ export const work = {
 			location: 'Lima, Perú',
 			role: 'web developer',
 			years: '2014 — 2017',
-			description: 'Front-end developer working in different projects: marketing websites, Ionic web apps and more.',
+			description: 'Front-end developer working in different projects: marketing websites, Ionic apps and more.',
 		},
 	],
 	resume: { label: 'full résumé →', href: '#' },
