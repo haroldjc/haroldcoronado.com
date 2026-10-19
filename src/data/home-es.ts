@@ -123,6 +123,6 @@ export const contact: typeof en.contact = {
 		{ label: 'correo ↗', href: 'mailto:hola@haroldcoronado.com', external: false },
 		{ label: 'github ↗', href: 'https://github.com/haroldjc/', external: true },
 		{ label: 'linkedin ↗', href: 'https://www.linkedin.com/in/haroldjc/', external: true },
-		{ label: 'youtube ↗', href: '#', external: true },
+		{ label: 'youtube ↗', href: 'https://www.youtube.com/@harold.coronado', external: true },
 	],
 };
