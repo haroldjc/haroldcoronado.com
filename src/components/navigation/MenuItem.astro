@@ -1,0 +1,22 @@
+---
+type Props = {
+	href: string;
+	current?: boolean;
+	class?: string;
+};
+
+const { href, current = false, class: className } = Astro.props;
+---
+
+<li class:list={['border-t border-default py-md', className]}>
+	<a
+		href={href}
+		aria-current={current ? 'page' : undefined}
+		class:list={[
+			'text-title whitespace-nowrap no-underline transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-accent',
+			current ? 'text-accent' : 'text-primary',
+		]}
+	>
+		<slot />
+	</a>
+</li>
