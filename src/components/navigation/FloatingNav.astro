@@ -67,6 +67,8 @@ const { id = 'floating-nav', lang = 'en', links = navLinks[lang], current, langH
 	const hero = document.querySelector('[data-hero]') ?? document.querySelector('header');
 
 	if (nav && toggle && hero) {
+		document.body.append(nav);
+
 		const setOpen = (open: boolean) => {
 			nav.toggleAttribute('data-open', open);
 			toggle.setAttribute('aria-expanded', String(open));
