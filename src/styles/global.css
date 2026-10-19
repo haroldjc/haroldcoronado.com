@@ -122,6 +122,30 @@
     overflow: hidden;
   }
 
+  html:has([data-hero][data-theme='paper']) { --overscroll-top: var(--color-brand-paper); }
+  html:has([data-hero][data-theme='red']) { --overscroll-top: var(--color-brand-red); }
+  html:has([data-hero][data-theme='teal']) { --overscroll-top: var(--color-brand-teal); }
+  html:has([data-hero][data-theme='plum']) { --overscroll-top: var(--color-brand-plum); }
+  html:has([data-hero][data-theme='ink']) { --overscroll-top: var(--color-brand-ink); }
+  html:has(> body > footer[data-theme='paper']) { --overscroll-bottom: var(--color-brand-paper); }
+  html:has(> body > footer[data-theme='red']) { --overscroll-bottom: var(--color-brand-red); }
+  html:has(> body > footer[data-theme='teal']) { --overscroll-bottom: var(--color-brand-teal); }
+  html:has(> body > footer[data-theme='plum']) { --overscroll-bottom: var(--color-brand-plum); }
+  html:has(> body > footer[data-theme='ink']) { --overscroll-bottom: var(--color-brand-ink); }
+
+  html {
+    background-color: var(--overscroll-top, var(--color-bg-surface));
+  }
+
+  @supports (animation-timeline: scroll()) {
+    html {
+      animation-name: overscroll;
+      animation-timing-function: step-end;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+  }
+
   body {
     @apply min-h-svh text-body antialiased;
     font-optical-sizing: none;
@@ -200,6 +224,13 @@
 
 ::view-transition-new(*.roll) {
   animation-name: roll-in;
+}
+
+@keyframes overscroll {
+  50%,
+  to {
+    background-color: var(--overscroll-bottom, var(--color-bg-surface));
+  }
 }
 
 @keyframes roll-out {
