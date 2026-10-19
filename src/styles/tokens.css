@@ -83,6 +83,7 @@
 
   --type-giant: clamp(7.5rem, 0.1692rem + 30.0752vw, 32.5rem);
   --type-display: clamp(4.5rem, 1.7876rem + 11.1278vw, 13.75rem);
+  --type-display-md: clamp(3.5rem, 2.1805rem + 5.4135vw, 8rem);
   --type-headline: clamp(3rem, 1.8271rem + 4.812vw, 7rem);
   --type-title: clamp(2rem, 1.7068rem + 1.203vw, 3rem);
   --type-heading: clamp(1.5rem, 1.3534rem + 0.6015vw, 2rem);

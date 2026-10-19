@@ -1,0 +1,44 @@
+---
+import type { PortableTextBlock } from '@portabletext/types';
+import { PortableText } from 'astro-portabletext';
+import Block from './portable/Block.astro';
+import Figure from './portable/Figure.astro';
+import Link from './portable/Link.astro';
+import List from './portable/List.astro';
+import ListItem from './portable/ListItem.astro';
+import PullQuote from './portable/PullQuote.astro';
+import Sidenote from './portable/Sidenote.astro';
+
+type Props = {
+	value: PortableTextBlock[];
+	class?: string;
+};
+
+const { value, class: className } = Astro.props;
+
+const components = {
+	block: Block,
+	list: List,
+	listItem: ListItem,
+	mark: { link: Link },
+	type: { figure: Figure, pullQuote: PullQuote, sidenote: Sidenote },
+};
+
+const isWide = (block: PortableTextBlock) => block._type === 'figure' && (block as { width?: string }).width !== 'column';
+const rows = value.filter(
+	(block, i) => block._type !== 'sidenote' && !(block.listItem && value[i - 1]?.listItem),
+);
+const firstWide = rows.findIndex(isWide);
+const railRows = Math.max(1, firstWide === -1 ? rows.length : firstWide);
+---
+
+<div class:list={['layout-grid gap-y-lg text-primary', className]} style={`--rail-rows: ${railRows}`}>
+	{
+		Astro.slots.has('rail') && (
+			<div class="col-span-full mb-2xl md:col-span-3 md:mb-0 md:[grid-row:1/span_var(--rail-rows)]">
+				<slot name="rail" />
+			</div>
+		)
+	}
+	<PortableText value={value} components={components} />
+</div>

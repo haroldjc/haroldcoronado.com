@@ -1,0 +1,37 @@
+---
+type Props = {
+	href: string;
+	date: string;
+	datetime: string;
+	title: string;
+	excerpt: string;
+	topic?: string;
+	readTime?: string | null;
+	topics?: string[];
+	class?: string;
+};
+
+const { href, date, datetime, title, excerpt, topic, readTime, topics = [], class: className } = Astro.props;
+---
+
+<li
+	data-topics={topics.join(' ')}
+	class:list={['group relative grid gap-x-gutter gap-y-sm border-t border-default pt-lg pb-xl md:grid-cols-9', className]}
+>
+	<time datetime={datetime} class="text-info text-secondary md:col-span-2">{date}</time>
+	<div class="flex flex-col gap-xs md:col-span-5">
+		<h3 class="text-heading text-primary">
+			<a
+				href={href}
+				class="no-underline transition-colors duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-accent after:absolute after:inset-0"
+			>
+				{title}
+			</a>
+		</h3>
+		<p class="text-body text-secondary">{excerpt}</p>
+	</div>
+	<div class="flex flex-col gap-2xs text-info md:col-span-2">
+		{topic && <p class="text-primary">{topic}</p>}
+		{readTime && <p class="text-secondary">{readTime}</p>}
+	</div>
+</li>

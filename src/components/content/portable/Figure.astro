@@ -1,0 +1,47 @@
+---
+import type { SanityImageSource } from '@sanity/image-url';
+import type { TypedObject } from 'astro-portabletext/types';
+import { urlFor } from '../../../lib/image';
+
+type FigureNode = TypedObject & {
+	image?: SanityImageSource & { asset?: { metadata?: { lqip?: string; dimensions?: { aspectRatio: number } } } };
+	alt?: string;
+	caption?: string;
+	width?: 'wide' | 'column';
+};
+
+type Props = { node: FigureNode };
+
+const { node } = Astro.props;
+const wide = node.width !== 'column';
+const ratio = wide ? 16 / 9 : (node.image?.asset?.metadata?.dimensions?.aspectRatio ?? 3 / 2);
+const widths = wide ? [672, 1344, 2016, 2688] : [656, 1312];
+const src = (width: number) => node.image && urlFor(node.image).width(width).height(Math.round(width / ratio)).fit('crop').url();
+const lqip = node.image?.asset?.metadata?.lqip;
+---
+
+{
+	node.image && (
+		<figure class:list={['col-span-full flex flex-col gap-sm', !wide && 'md:col-start-4 md:col-span-6']}>
+			<img
+				src={src(widths[1])}
+				srcset={widths.map((width) => `${src(width)} ${width}w`).join(', ')}
+				sizes={wide ? '(min-width: 1440px) 1344px, calc(100vw - 2 * var(--layout-margin))' : '(min-width: 48rem) 656px, 100vw'}
+				alt={node.alt ?? ''}
+				width={widths[1]}
+				height={Math.round(widths[1] / ratio)}
+				loading="lazy"
+				decoding="async"
+				class="w-full bg-subtle bg-cover"
+				style={lqip ? `background-image: url(${lqip})` : undefined}
+			/>
+			{
+				node.caption && (
+					<figcaption class:list={['text-label text-secondary', wide && 'layout-grid']}>
+						<span class:list={[wide && 'col-span-full md:col-start-4 md:col-span-6']}>{node.caption}</span>
+					</figcaption>
+				)
+			}
+		</figure>
+	)
+}

@@ -1,0 +1,11 @@
+---
+import type { MarkProps } from 'astro-portabletext/types';
+import TextLink from '../../ui/TextLink.astro';
+
+type Props = MarkProps<{ href: string }>;
+
+const { node } = Astro.props;
+const href = node.markDef.href;
+---
+
+<TextLink href={href} size="inline" external={/^https?:\/\//.test(href)}><slot /></TextLink>

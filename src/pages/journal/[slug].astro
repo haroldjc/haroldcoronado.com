@@ -1,0 +1,164 @@
+---
+import ArticleBody from '../../components/content/ArticleBody.astro';
+import ContentItem from '../../components/content/ContentItem.astro';
+import SectionName from '../../components/content/SectionName.astro';
+import Tag from '../../components/content/Tag.astro';
+import SiteFooter from '../../components/navigation/SiteFooter.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import TextLink from '../../components/ui/TextLink.astro';
+import { contact } from '../../data/home';
+import { journal } from '../../data/journal';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { type Article, articleHref, getArticles, headings, longDate, readingTime, topicHref } from '../../lib/journal';
+
+export async function getStaticPaths() {
+	const articles = await getArticles();
+	return articles.map((article) => ({
+		params: { slug: article.slug },
+		props: { article, related: articles.filter((other) => other._id !== article._id).slice(0, 3) },
+	}));
+}
+
+type Props = { article: Article; related: Article[] };
+
+const { article, related } = Astro.props;
+const readTime = readingTime(article.words);
+const contents = headings(article.body);
+const url = new URL(articleHref(article.slug), Astro.site).href;
+const share = {
+	linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+	email: `mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(url)}`,
+};
+---
+
+<BaseLayout title={`${article.title} — Harold Coronado`} description={article.excerpt}>
+	<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} slot="head" />
+	<header data-hero data-theme="plum" class="pb-section lg:pt-3.5">
+		<SiteHeader contact={contact.links[0]} />
+		<div class="wrapper flex flex-col gap-3xl pt-4xl">
+			<div class="flex flex-col gap-lg">
+				<a href="/journal/" class="self-start no-underline"><SectionName label="journal" /></a>
+				<h1 class="article-title max-w-[960px] text-primary">{article.title}</h1>
+			</div>
+			<div class="layout-grid gap-y-xl">
+				<p class="col-span-full text-body-lg text-primary md:col-span-8">{article.excerpt}</p>
+				<div class="col-span-full flex flex-col gap-sm md:col-span-4">
+					<p class="text-info text-primary">
+						<time datetime={article.publishedAt}>{longDate(article.publishedAt)}</time>
+						{readTime && <span> · {readTime}</span>}
+					</p>
+					<ul role="list" class="flex flex-wrap gap-xs">
+						{
+							article.topics.map((topic) => (
+								<li>
+									<Tag label={topic.title} href={topicHref(topic.slug)} />
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main data-theme="paper" class="wrapper flex flex-col gap-3xl py-section">
+		<article class="flex flex-col gap-3xl">
+			{
+				article.body?.length ? (
+					<ArticleBody value={article.body}>
+						<div slot="rail" class="flex flex-col gap-2xl">
+							{contents.length > 0 && (
+								<nav aria-labelledby="contents-title" class="flex flex-col items-start gap-sm">
+									<h2 id="contents-title">
+										<SectionName label="contents" />
+									</h2>
+									{contents.map((heading) => (
+										<TextLink href={`#${heading.id}`} size="small">
+											{heading.text} →
+										</TextLink>
+									))}
+								</nav>
+							)}
+							<div class="flex flex-col items-start gap-sm">
+								<SectionName label="share" />
+								<button type="button" data-copy-link={url} class="link-line text-label text-primary">
+									copy link →
+								</button>
+								<TextLink href={share.linkedin} size="small" external>
+									linkedin ↗
+								</TextLink>
+								<TextLink href={share.email} size="small">
+									email ↗
+								</TextLink>
+							</div>
+						</div>
+					</ArticleBody>
+				) : null
+			}
+
+			<footer class="layout-grid">
+				<div class="col-span-full flex flex-col items-start gap-lg border-t-2 border-default pt-lg md:col-start-4 md:col-span-6">
+					<p class="text-info text-primary">written by {journal.author.name}</p>
+					<p class="text-body text-primary">{journal.author.bio}</p>
+					<ul role="list" class="flex flex-wrap gap-xs">
+						{
+							article.topics.map((topic) => (
+								<li>
+									<Tag label={topic.title} href={topicHref(topic.slug)} />
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</footer>
+		</article>
+
+		{
+			related.length > 0 && (
+				<section aria-labelledby="related-title" class="flex flex-col gap-xl pt-4xl">
+					<div class="flex flex-wrap items-end justify-between gap-md">
+						<h2 id="related-title">
+							<SectionName label="more from the journal" />
+						</h2>
+						<TextLink href="/journal/" size="medium">
+							all articles →
+						</TextLink>
+					</div>
+					<ul role="list" class="layout-grid gap-y-2xl">
+						{related.map((other) => (
+							<li class="col-span-full border-t-2 border-default pt-lg md:col-span-4">
+								<ContentItem
+									label={[other.topics[0]?.title, readingTime(other.words)?.replace(' read', '')].filter(Boolean).join(' · ')}
+									title={other.title}
+									description={other.excerpt}
+									link={{ href: articleHref(other.slug), label: 'read →' }}
+								/>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+	</main>
+	<SiteFooter links={contact.links} size="compact" />
+</BaseLayout>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((button) => {
+		const label = button.textContent;
+		button.addEventListener('click', async () => {
+			await navigator.clipboard.writeText(button.dataset.copyLink ?? location.href);
+			button.textContent = 'link copied';
+			setTimeout(() => (button.textContent = label), 2000);
+		});
+	});
+</script>
+
+<style>
+	.article-title {
+		font-size: clamp(3.5rem, 1.5024rem + 8.1955vw, 10.3125rem);
+		font-weight: 700;
+		line-height: 0.88;
+		letter-spacing: -0.06em;
+	}
+</style>

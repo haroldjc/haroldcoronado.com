@@ -1,0 +1,10 @@
+---
+import type { TypedObject } from 'astro-portabletext/types';
+import Quote from '../Quote.astro';
+
+type Props = { node: TypedObject & { quote: string; attribution?: string } };
+
+const { node } = Astro.props;
+---
+
+<Quote quote={node.quote} attribution={node.attribution} class="col-span-full md:col-start-4 md:col-span-6" />

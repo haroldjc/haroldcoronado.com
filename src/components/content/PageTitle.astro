@@ -1,0 +1,13 @@
+---
+type Props = {
+	title: string;
+	class?: string;
+};
+
+const { title, class: className } = Astro.props;
+---
+
+<h1 class:list={['flex items-start text-display-md text-primary', className]}>
+	{title}
+	<span aria-hidden="true" class="mt-[1em] h-[0.047em] w-[2.27em] shrink-0 bg-(--color-border-default)"></span>
+</h1>

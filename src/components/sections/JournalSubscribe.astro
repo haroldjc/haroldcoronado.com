@@ -1,0 +1,44 @@
+---
+import SectionName from '../content/SectionName.astro';
+import TextField from '../forms/TextField.astro';
+import Button from '../ui/Button.astro';
+import TextLink from '../ui/TextLink.astro';
+
+type Props = {
+	label: string;
+	title: string;
+	text: string;
+	action?: string;
+	feed?: string;
+	class?: string;
+};
+
+const { label, title, text, action, feed, class: className } = Astro.props;
+---
+
+<section aria-labelledby="subscribe-title" class:list={['layout-grid gap-y-xl border-t border-default pt-3xl', className]}>
+	<SectionName label={label} class="col-span-full self-start md:col-span-3" />
+	<div class="col-span-full flex flex-col gap-xl md:col-span-6">
+		<div class="flex flex-col gap-md">
+			<h2 id="subscribe-title" class="text-title text-primary">{title}</h2>
+			<p class="text-body-lg text-secondary">{text}</p>
+		</div>
+		{
+			action && (
+				<form method="post" action={action} class="flex items-end gap-md">
+					<TextField label="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required class="flex-1" />
+					<Button type="submit">subscribe</Button>
+				</form>
+			)
+		}
+	</div>
+	{
+		feed && (
+			<div class="col-span-full md:col-span-3">
+				<TextLink href={feed} size="small" external>
+					rss feed ↗
+				</TextLink>
+			</div>
+		)
+	}
+</section>

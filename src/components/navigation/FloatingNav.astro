@@ -1,5 +1,4 @@
 ---
-import Wordmark from '../brand/Wordmark.astro';
 import Icon from '../Icon.astro';
 import TextLink from '../ui/TextLink.astro';
 import LangToggle from './LangToggle.astro';
@@ -20,11 +19,8 @@ const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, conta
 <div data-floating-nav data-theme="ink" inert class="floating-nav group fixed top-lg right-margin z-50 hidden size-16 bg-transparent md:block">
 	<div
 		id={`${id}-panel`}
-		class="floating-nav-panel absolute top-0 right-0 flex w-90 flex-col border border-subtle bg-surface text-primary"
+		class="floating-nav-panel absolute top-0 right-0 flex w-90 flex-col border border-subtle bg-surface pt-16 text-primary"
 	>
-		<div class="flex h-16 items-center pl-lg">
-			<Wordmark href="/" />
-		</div>
 		<div class="flex flex-col gap-xl px-lg pt-xs pb-lg">
 			<nav aria-label="Main">
 				<ul role="list">
@@ -95,7 +91,7 @@ const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, conta
 		});
 		nav.addEventListener('pointerleave', (event) => {
 			if (event.pointerType !== 'mouse') return;
-			leaveTimer = setTimeout(() => setOpen(false), 250);
+			leaveTimer = window.setTimeout(() => setOpen(false), 250);
 		});
 
 		toggle.addEventListener('click', () => setOpen(!nav.hasAttribute('data-open')));

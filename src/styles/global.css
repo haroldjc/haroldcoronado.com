@@ -49,6 +49,10 @@
   --text-display--line-height: 0.88;
   --text-display--letter-spacing: -0.06em;
   --text-display--font-weight: 700;
+  --text-display-md: var(--type-display-md);
+  --text-display-md--line-height: 0.88;
+  --text-display-md--letter-spacing: -0.06em;
+  --text-display-md--font-weight: 700;
   --text-headline: var(--type-headline);
   --text-headline--line-height: 0.9;
   --text-headline--letter-spacing: -0.05em;

@@ -130,7 +130,7 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 
 		const schedule = () => {
 			clearTimeout(timer);
-			if (visible && !document.hidden && !busy) timer = setTimeout(advance, HOLD);
+			if (visible && !document.hidden && !busy) timer = window.setTimeout(advance, HOLD);
 		};
 
 		const advance = async () => {

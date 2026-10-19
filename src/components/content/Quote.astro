@@ -1,7 +1,7 @@
 ---
 type Props = {
 	quote: string;
-	attribution: string;
+	attribution?: string;
 	class?: string;
 };
 
@@ -12,6 +12,6 @@ const { quote, attribution, class: className } = Astro.props;
 	<span aria-hidden="true" class="shrink-0 text-headline text-red">“</span>
 	<div class="flex min-w-0 flex-1 flex-col gap-lg pt-md">
 		<blockquote class="text-heading text-primary">{quote}</blockquote>
-		<figcaption class="text-label text-secondary">{attribution}</figcaption>
+		{attribution && <figcaption class="text-label text-secondary">{attribution}</figcaption>}
 	</div>
 </figure>

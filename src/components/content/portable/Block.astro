@@ -1,0 +1,21 @@
+---
+import type { BlockProps } from 'astro-portabletext/types';
+import { blockText, slugify } from '../../../lib/journal';
+
+type Props = BlockProps;
+
+const { node, index } = Astro.props;
+const column = 'col-span-full md:col-start-4 md:col-span-6';
+---
+
+{
+	node.style === 'h2' ? (
+		<h2 id={slugify(blockText(node))} class:list={[column, 'scroll-mt-28 text-heading']}>
+			<slot />
+		</h2>
+	) : (
+		<p class:list={[column, index === 0 ? 'text-body-lg' : 'text-body']}>
+			<slot />
+		</p>
+	)
+}

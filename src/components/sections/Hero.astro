@@ -78,7 +78,7 @@ const { headline, highlight, bio, words, fitTo } = Astro.props;
 
 		const schedule = () => {
 			clearTimeout(timer);
-			timer = setTimeout(advance, WORD_INTERVAL);
+			timer = window.setTimeout(advance, WORD_INTERVAL);
 		};
 
 		const advance = () => {

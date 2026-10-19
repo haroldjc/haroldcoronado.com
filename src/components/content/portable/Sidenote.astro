@@ -1,0 +1,11 @@
+---
+import type { TypedObject } from 'astro-portabletext/types';
+
+type Props = { node: TypedObject & { text: string } };
+
+const { node } = Astro.props;
+---
+
+<aside class="col-span-full md:col-start-10 md:col-span-3 md:h-0">
+	<p class="border-t border-default pt-sm text-label text-secondary">{node.text}</p>
+</aside>

@@ -1,12 +1,14 @@
 ---
-type Props = {
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = Omit<HTMLAttributes<'a'>, 'class'> & {
 	label: string;
 	href?: string;
 	selected?: boolean;
 	class?: string;
 };
 
-const { label, href, selected = false, class: className } = Astro.props;
+const { label, href, selected = false, class: className, ...attrs } = Astro.props;
 const Element = href ? 'a' : 'span';
 ---
 
@@ -18,6 +20,7 @@ const Element = href ? 'a' : 'span';
 		selected ? 'bg-inverse text-on-inverse' : 'text-primary',
 		className,
 	]}
+	{...attrs}
 >
 	{label}
 </Element>

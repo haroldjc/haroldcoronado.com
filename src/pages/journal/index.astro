@@ -1,0 +1,107 @@
+---
+import JournalRow from '../../components/content/JournalRow.astro';
+import PageTitle from '../../components/content/PageTitle.astro';
+import SectionName from '../../components/content/SectionName.astro';
+import Tag from '../../components/content/Tag.astro';
+import SiteFooter from '../../components/navigation/SiteFooter.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import JournalSubscribe from '../../components/sections/JournalSubscribe.astro';
+import { contact } from '../../data/home';
+import { journal } from '../../data/journal';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articleHref, getArticles, readingTime, shortDate, topicHref, year } from '../../lib/journal';
+
+const articles = await getArticles();
+const topics = [...new Map(articles.flatMap((article) => article.topics).map((topic) => [topic.slug, topic])).values()];
+const years = Map.groupBy(articles, (article) => year(article.publishedAt));
+---
+
+<BaseLayout title="Journal — Harold Coronado" description={journal.description}>
+	<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} slot="head" />
+	<div data-hero data-theme="plum" class="lg:pt-3.5">
+		<SiteHeader contact={contact.links[0]} />
+	</div>
+	<main data-theme="paper" class="wrapper flex flex-col gap-section py-section">
+		<div class="flex flex-col gap-section">
+			<PageTitle title={journal.title} />
+			<div class="layout-grid gap-y-xl">
+				<p class="col-span-full text-body-lg text-primary md:col-span-8">{journal.description}</p>
+				<nav aria-labelledby="topics-title" class="col-span-full flex flex-col gap-sm md:col-span-4">
+					<h2 id="topics-title" class="text-info text-primary">browse by topic</h2>
+					<ul role="list" class="flex flex-wrap gap-xs">
+						<li><Tag label="all" href="/journal/" selected data-topic-filter="" /></li>
+						{
+							topics.map((topic) => (
+								<li>
+									<Tag label={topic.title} href={topicHref(topic.slug)} data-topic-filter={topic.slug} />
+								</li>
+							))
+						}
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+		<section class="flex flex-col gap-3xl">
+			<SectionName label="all articles" as="h2" />
+			{
+				[...years].map(([year, entries]) => (
+					<div data-year class="layout-grid gap-y-lg">
+						<h3 class="col-span-full text-title text-primary md:col-span-3">{year}</h3>
+						<ol role="list" class="col-span-full border-b border-default md:col-span-9">
+							{entries.map((article) => (
+								<JournalRow
+									href={articleHref(article.slug)}
+									date={shortDate(article.publishedAt)}
+									datetime={article.publishedAt}
+									title={article.title}
+									excerpt={article.excerpt}
+									topic={article.topics[0]?.title}
+									readTime={readingTime(article.words)}
+									topics={article.topics.map((topic) => topic.slug)}
+								/>
+							))}
+						</ol>
+					</div>
+				))
+			}
+			<p data-empty hidden class="text-body text-secondary">No articles on this topic yet.</p>
+		</section>
+
+		<JournalSubscribe {...journal.subscribe} feed={journal.feed} />
+	</main>
+	<SiteFooter links={contact.links} size="compact" />
+</BaseLayout>
+
+<script>
+	const filters = [...document.querySelectorAll<HTMLAnchorElement>('[data-topic-filter]')];
+	const rows = [...document.querySelectorAll<HTMLElement>('[data-topics]')];
+	const years = [...document.querySelectorAll<HTMLElement>('[data-year]')];
+	const empty = document.querySelector<HTMLElement>('[data-empty]');
+	const selected = ['bg-inverse', 'text-on-inverse'];
+
+	const apply = (topic: string) => {
+		for (const filter of filters) {
+			const active = filter.dataset.topicFilter === topic;
+			filter.classList.toggle('text-primary', !active);
+			selected.forEach((name) => filter.classList.toggle(name, active));
+			if (active) filter.setAttribute('aria-current', 'page');
+			else filter.removeAttribute('aria-current');
+		}
+		for (const row of rows) row.hidden = Boolean(topic) && !row.dataset.topics?.split(' ').includes(topic);
+		for (const group of years) group.hidden = !group.querySelector('[data-topics]:not([hidden])');
+		if (empty) empty.hidden = years.some((group) => !group.hidden);
+	};
+
+	const current = () => new URL(location.href).searchParams.get('topic') ?? '';
+
+	for (const filter of filters) {
+		filter.addEventListener('click', (event) => {
+			event.preventDefault();
+			history.pushState(null, '', filter.href);
+			apply(filter.dataset.topicFilter ?? '');
+		});
+	}
+	addEventListener('popstate', () => apply(current()));
+	apply(current());
+</script>

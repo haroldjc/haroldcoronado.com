@@ -1,0 +1,10 @@
+---
+import type { ListItemProps } from 'astro-portabletext/types';
+
+type Props = ListItemProps;
+---
+
+<li class="flex gap-md">
+	<span aria-hidden="true">—</span>
+	<span><slot /></span>
+</li>

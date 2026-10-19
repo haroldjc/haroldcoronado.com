@@ -21,6 +21,7 @@ const { title, description, lang = 'en' } = Astro.props;
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
 		<Font cssVariable="--font-inter" preload />
+		<slot name="head" />
 	</head>
 	<body>
 		<slot />
