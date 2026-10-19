@@ -18,7 +18,7 @@ const years = Map.groupBy(articles, (article) => year(article.publishedAt));
 
 <BaseLayout title="Journal — Harold Coronado" description={journal.description}>
 	<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} slot="head" />
-	<div data-hero data-theme="plum" class="lg:pt-3.5">
+	<div data-hero data-theme="plum" class="lg:py-3.5">
 		<SiteHeader contact={contact.links[0]} />
 	</div>
 	<main data-theme="paper" class="wrapper flex flex-col gap-section py-section">
