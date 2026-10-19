@@ -69,7 +69,24 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 			dialog.showModal();
 			dialog.focus();
 		});
-		dialog.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', () => dialog.close()));
+		dialog.querySelectorAll<HTMLAnchorElement>('nav a').forEach((link) =>
+			link.addEventListener('click', (event) => {
+				const url = new URL(link.href);
+				const target = url.pathname === location.pathname && url.hash ? document.querySelector(url.hash) : null;
+				dialog.close();
+				if (!target) return;
+				event.preventDefault();
+				const go = (event?: Event) => {
+					if (event && event.target !== dialog) return;
+					clearTimeout(timer);
+					dialog.removeEventListener('transitionend', go);
+					history.pushState(null, '', url.hash);
+					target.scrollIntoView();
+				};
+				const timer = window.setTimeout(go, 400);
+				dialog.addEventListener('transitionend', go);
+			}),
+		);
 	});
 </script>
 
