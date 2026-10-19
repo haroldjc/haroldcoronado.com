@@ -142,7 +142,9 @@ const { headline, highlight, bio, words, fitTo, contact, lang } = Astro.props;
 		@supports (animation-timeline: scroll()) {
 			.hero-pin,
 			.hero-unpin {
-				animation: hero-pin linear both;
+				animation-name: hero-pin;
+				animation-timing-function: linear;
+				animation-fill-mode: both;
 				animation-timeline: scroll(root);
 				animation-range: 0px 100000px;
 			}
