@@ -1,6 +1,7 @@
 ---
 import Wordmark from '../brand/Wordmark.astro';
 import IconButton from '../ui/IconButton.astro';
+import TextLink from '../ui/TextLink.astro';
 import LangToggle from './LangToggle.astro';
 import { type Lang, type LangHrefs, type NavItem, navLinks, ui } from './types';
 
@@ -10,28 +11,27 @@ type Props = {
 	current?: string;
 	lang?: Lang;
 	langHrefs?: LangHrefs;
-	contact?: NavItem;
-	theme?: 'paper' | 'red' | 'teal' | 'plum';
+	contact?: NavItem & { external?: boolean };
 };
 
-const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHrefs, contact, theme = 'paper' } = Astro.props;
+const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHrefs, contact } = Astro.props;
 ---
 
 <dialog
 	id={id}
 	aria-label={ui[lang].menu}
 	tabindex="-1"
-	data-theme={theme}
-	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pb-margin text-primary inset-ring inset-ring-(--color-border-subtle) focus:outline-none open:flex"
+	data-theme="ink"
+	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-md pb-margin text-primary focus:outline-none open:flex"
 >
-	<div class="flex flex-col">
-		<div class="flex h-20 items-center justify-between">
+	<div class="flex flex-col gap-2xl">
+		<div class="flex items-center justify-between">
 			<Wordmark href="/" />
 			<form method="dialog">
 				<IconButton type="submit" icon="close" label={ui[lang].closeMenu} />
 			</form>
 		</div>
-		<nav aria-label={ui[lang].main} class="pt-xl">
+		<nav aria-label={ui[lang].main}>
 			<ul role="list">
 				{
 					links.map((link) => (
@@ -53,9 +53,9 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 		<LangToggle current={lang} hrefs={langHrefs} />
 		{
 			contact && (
-				<a href={contact.href} class="text-info whitespace-nowrap text-primary no-underline">
+				<TextLink href={contact.href} size="medium" external={contact.external}>
 					{contact.label}
-				</a>
+				</TextLink>
 			)
 		}
 	</div>
