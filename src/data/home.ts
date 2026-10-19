@@ -7,6 +7,7 @@ export const hero = {
 };
 
 export const skills = {
+	label: 'skills',
 	headline: ['product engineering', 'at heart.'],
 	pillars: [
 		{
@@ -45,6 +46,7 @@ export const skills = {
 
 export const work = {
 	title: 'work',
+	label: 'experience',
 	projects: [
 		{ name: 'client one', meta: 'brand + web · 2025' },
 		{ name: 'client two', meta: 'product design · 2024' },
@@ -90,6 +92,7 @@ export const work = {
 };
 
 export const about = {
+	label: 'about',
 	headline: ['design, tech,', 'science and art.'],
 	note: ['about the things', 'that motivate me.'],
 	intro: `I am passionate about many things. Beyond my professional work, I enjoy reading books on popular science as well as science fiction. This combination led me to create a YouTube channel called [Odisea del Cosmos](https://www.youtube.com/@OdiseadelCosmos), dedicated to exploring the science found within science fiction, both in film and literature. Currently, I am working on a related project called *Odisea Axis*.
@@ -112,6 +115,7 @@ export const about = {
 };
 
 export const contact = {
+	label: 'contact',
 	headline: ['let’s build', 'something.'],
 	links: [
 		{ label: 'email ↗', href: 'mailto:hola@haroldcoronado.com', external: false },

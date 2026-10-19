@@ -1,5 +1,5 @@
 ---
-import type { Lang, LangHrefs } from './types';
+import { homeHrefs, type Lang, type LangHrefs, ui } from './types';
 
 type Props = {
 	current?: Lang;
@@ -7,14 +7,14 @@ type Props = {
 	class?: string;
 };
 
-const { current = 'en', hrefs = { en: '/', es: '/es/' }, class: className } = Astro.props;
+const { current = 'en', hrefs = homeHrefs, class: className } = Astro.props;
 const langs: { code: Lang; name: string }[] = [
 	{ code: 'en', name: 'English' },
 	{ code: 'es', name: 'Español' },
 ];
 ---
 
-<nav aria-label="Language" class:list={['flex shrink-0 border border-default', className]}>
+<nav aria-label={ui[current].language} class:list={['flex shrink-0 border border-default', className]}>
 	{
 		langs.map(({ code, name }) => (
 			<a

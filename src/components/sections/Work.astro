@@ -7,7 +7,7 @@ import type { work } from '../../data/home';
 
 type Props = typeof work;
 
-const { title, projects, experienceHeadline, experience, resume } = Astro.props;
+const { label, title, projects, experienceHeadline, experience, resume } = Astro.props;
 ---
 
 <section id="work" data-theme="teal" aria-labelledby="work-title" class="flex flex-col gap-5xl py-section">
@@ -31,8 +31,8 @@ const { title, projects, experienceHeadline, experience, resume } = Astro.props;
 
 	<div class="wrapper flex flex-col gap-3xl">
 		<div class="flex flex-col gap-md">
-			<SectionName label="experience" />
-			<h2 class="text-headline">{experienceHeadline}</h2>
+			<SectionName label={label} />
+			<h2 data-roll class="text-headline">{experienceHeadline}</h2>
 		</div>
 		<div>
 			{experience.map((row) => <ExperienceRow {...row} />)}

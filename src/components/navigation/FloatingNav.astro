@@ -2,7 +2,7 @@
 import Icon from '../Icon.astro';
 import TextLink from '../ui/TextLink.astro';
 import LangToggle from './LangToggle.astro';
-import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+import { type Lang, type LangHrefs, type NavItem, navLinks, ui } from './types';
 
 type Props = {
 	id?: string;
@@ -13,7 +13,7 @@ type Props = {
 	contact?: NavItem & { external?: boolean };
 };
 
-const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, contact } = Astro.props;
+const { id = 'floating-nav', lang = 'en', links = navLinks[lang], current, langHrefs, contact } = Astro.props;
 ---
 
 <div data-floating-nav data-theme="ink" inert class="floating-nav group fixed top-lg right-margin z-50 hidden size-16 bg-transparent md:block">
@@ -22,7 +22,7 @@ const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, conta
 		class="floating-nav-panel absolute top-0 right-0 flex w-90 flex-col border border-subtle bg-surface pt-16 text-primary"
 	>
 		<div class="flex flex-col gap-xl px-lg pt-xs pb-lg">
-			<nav aria-label="Main">
+			<nav aria-label={ui[lang].main}>
 				<ul role="list">
 					{
 						links.map((link) => (
@@ -53,7 +53,9 @@ const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, conta
 	</div>
 	<button
 		type="button"
-		aria-label="Open menu"
+		aria-label={ui[lang].openMenu}
+		data-label-open={ui[lang].openMenu}
+		data-label-close={ui[lang].closeMenu}
 		aria-expanded="false"
 		aria-controls={`${id}-panel`}
 		data-floating-toggle
@@ -73,7 +75,7 @@ const { id = 'floating-nav', links = defaultNav, current, lang, langHrefs, conta
 		const setOpen = (open: boolean) => {
 			nav.toggleAttribute('data-open', open);
 			toggle.setAttribute('aria-expanded', String(open));
-			toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+			toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
 		};
 
 		new IntersectionObserver(([entry]) => {

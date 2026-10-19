@@ -72,6 +72,7 @@
   --size-icon-sm: 16px;
   --size-icon-md: 24px;
   --size-control: 56px;
+  --size-logo: clamp(1.625rem, 1.515rem + 0.4511vw, 2rem);
 
   --layout-frame: 1720px;
   --layout-container: 1440px;

@@ -1,4 +1,6 @@
 ---
+import LogoIcon from './LogoIcon.astro';
+
 type Props = {
 	href?: string;
 	class?: string;
@@ -8,6 +10,7 @@ const { href, class: className } = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 
-<Tag href={href} class:list={['text-info font-bold whitespace-nowrap text-primary no-underline', className]}>
+<Tag href={href} class:list={['flex items-center gap-xs text-info font-bold whitespace-nowrap text-primary no-underline', className]}>
+	<LogoIcon class="size-(--size-logo) shrink-0 text-icon" />
 	Harold Coronado
 </Tag>

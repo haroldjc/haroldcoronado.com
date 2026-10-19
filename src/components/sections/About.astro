@@ -4,23 +4,24 @@ import ContentItem from '../content/ContentItem.astro';
 import RichText from '../content/RichText.astro';
 import SectionName from '../content/SectionName.astro';
 import type { about } from '../../data/home';
+import type { Lang } from '../navigation/types';
 
-type Props = typeof about;
+type Props = typeof about & { lang?: Lang };
 
-const { headline, note, intro, items } = Astro.props;
+const { label, headline, note, intro, items, lang } = Astro.props;
 ---
 
 <section data-theme="paper" aria-labelledby="about-title" class="overflow-x-clip">
-	<Constellation />
+	<Constellation lang={lang} />
 
 	<div id="about" class="wrapper flex flex-col gap-4xl py-section">
 		<div class="flex flex-col gap-lg">
-			<SectionName label="about" />
+			<SectionName label={label} />
 			<div class="layout-grid gap-y-lg">
-				<h2 id="about-title" class="col-span-full text-headline text-teal md:col-span-8">
+				<h2 id="about-title" data-roll class="col-span-full text-headline text-teal md:col-span-8">
 					{headline.map((line) => <span class="block">{line}</span>)}
 				</h2>
-				<p class="col-span-full text-heading font-medium md:col-span-4 md:pt-5">
+				<p data-roll class="col-span-full text-heading font-medium md:col-span-4 md:pt-5">
 					{note.map((line) => <span class="block">{line}</span>)}
 				</p>
 			</div>

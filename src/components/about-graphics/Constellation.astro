@@ -1,11 +1,13 @@
 ---
+import { type Lang, ui } from '../navigation/types';
 import { constellations, grid, height, layouts, percent, pool, width } from './constellations';
 
 type Props = {
+	lang?: Lang;
 	class?: string;
 };
 
-const { class: className } = Astro.props;
+const { lang = 'en', class: className } = Astro.props;
 
 const [first] = layouts;
 const bleed = { x: -4800, width: width + 9600 };
@@ -15,7 +17,7 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 <div
 	data-constellation
 	role="img"
-	aria-label={`Constellations: ${constellations.map((c) => c.name).join(', ')}`}
+	aria-label={`${ui[lang].constellations}: ${constellations.map((c) => c.name[lang]).join(', ')}`}
 	class:list={['relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip', className]}
 >
 	<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible">

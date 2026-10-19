@@ -2,18 +2,19 @@
 import { Image } from 'astro:assets';
 import SiteHeader from '../navigation/SiteHeader.astro';
 import portrait from '../../assets/home/portrait.png';
-import { contact, type hero } from '../../data/home';
+import type * as home from '../../data/home';
+import type { Lang } from '../navigation/types';
 
-type Props = typeof hero;
+type Props = typeof home.hero & { contact: (typeof home.contact)['links'][number]; lang?: Lang };
 
-const { headline, highlight, bio, words, fitTo } = Astro.props;
+const { headline, highlight, bio, words, fitTo, contact, lang } = Astro.props;
 ---
 
 <section data-hero data-theme="red" class="grid overflow-clip lg:pt-3.5">
 	<div class="relative z-10 xl:col-start-1 xl:row-start-1">
-		<SiteHeader contact={contact.links[0]} />
+		<SiteHeader contact={contact} lang={lang} />
 		<div class="wrapper flex flex-col gap-md pt-10 md:pt-[74px]">
-			<h1 class="text-headline">
+			<h1 data-roll class="text-headline">
 				{headline.map((line) => <span class="block">{line}</span>)}
 				<span class="block text-paper">{highlight}</span>
 			</h1>

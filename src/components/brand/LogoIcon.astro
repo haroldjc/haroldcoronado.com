@@ -1,0 +1,24 @@
+---
+type Props = {
+	detail?: 'full' | 'simple';
+	class?: string;
+};
+
+const { detail = 'full', class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 48 48" fill="currentColor" aria-hidden="true" class={className}>
+	<path d="M27.5 31.5H30.4658L10.167 45.8789L6.12109 40.167L27.5 25.0215V31.5Z" />
+	<path d="M30.4668 16.5H27.5V22.9775L6.12109 7.83301L10.167 2.12109L30.4668 16.5Z" />
+	<rect x="31" y="20" width="8" height="8" />
+	{
+		detail === 'full' && (
+			<>
+				<path d="M36.25 43H33.75V31.5H36.25V43Z" />
+				<path d="M36.25 16.5H33.75V5H36.25V16.5Z" />
+				<circle cx="35" cy="5" r="3.5" />
+				<circle cx="35" cy="43" r="3.5" />
+			</>
+		)
+	}
+</svg>

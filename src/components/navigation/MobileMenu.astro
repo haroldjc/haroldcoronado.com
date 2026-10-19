@@ -2,7 +2,7 @@
 import Wordmark from '../brand/Wordmark.astro';
 import IconButton from '../ui/IconButton.astro';
 import LangToggle from './LangToggle.astro';
-import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+import { type Lang, type LangHrefs, type NavItem, navLinks, ui } from './types';
 
 type Props = {
 	id?: string;
@@ -14,12 +14,12 @@ type Props = {
 	theme?: 'paper' | 'red' | 'teal' | 'plum';
 };
 
-const { id = 'mobile-menu', links = defaultNav, current, lang, langHrefs, contact, theme = 'paper' } = Astro.props;
+const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHrefs, contact, theme = 'paper' } = Astro.props;
 ---
 
 <dialog
 	id={id}
-	aria-label="Menu"
+	aria-label={ui[lang].menu}
 	tabindex="-1"
 	data-theme={theme}
 	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-(--menu-top) pb-margin text-primary inset-ring inset-ring-(--color-border-subtle) focus:outline-none open:flex"
@@ -28,10 +28,10 @@ const { id = 'mobile-menu', links = defaultNav, current, lang, langHrefs, contac
 		<div class="flex h-20 items-center justify-between">
 			<Wordmark href="/" />
 			<form method="dialog">
-				<IconButton type="submit" icon="close" label="Close menu" />
+				<IconButton type="submit" icon="close" label={ui[lang].closeMenu} />
 			</form>
 		</div>
-		<nav aria-label="Main" class="pt-xl">
+		<nav aria-label={ui[lang].main} class="pt-xl">
 			<ul role="list">
 				{
 					links.map((link) => (

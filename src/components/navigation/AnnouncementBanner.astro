@@ -1,16 +1,18 @@
 ---
 import type { Announcement } from '../../lib/announcement';
 import TextLink from '../ui/TextLink.astro';
+import { type Lang, ui } from './types';
 
 type Props = Pick<Announcement, 'message' | 'link'> & {
+	lang?: Lang;
 	class?: string;
 };
 
-const { message, link, class: className } = Astro.props;
+const { message, link, lang = 'en', class: className } = Astro.props;
 ---
 
 <aside
-	aria-label="Announcement"
+	aria-label={ui[lang].announcement}
 	data-theme="ink"
 	class:list={['flex h-9 items-center justify-center gap-lg overflow-clip px-margin py-xs text-label text-primary', className]}
 >

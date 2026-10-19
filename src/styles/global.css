@@ -167,6 +167,50 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-group(root) {
+  animation-duration: 250ms;
+}
+
+::view-transition-group(*.roll) {
+  overflow: clip;
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(*.roll),
+::view-transition-new(*.roll) {
+  width: auto;
+  height: auto;
+  mix-blend-mode: normal;
+  animation: 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-old(*.roll) {
+  animation-name: roll-out;
+}
+
+::view-transition-new(*.roll) {
+  animation-name: roll-in;
+}
+
+@keyframes roll-out {
+  to {
+    translate: 0 -100%;
+  }
+}
+
+@keyframes roll-in {
+  from {
+    translate: 0 100%;
+  }
+}
+
 @utility wrapper {
   width: 100%;
   max-width: var(--layout-container);

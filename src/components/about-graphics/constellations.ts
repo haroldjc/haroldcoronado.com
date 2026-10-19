@@ -1,3 +1,5 @@
+import type { Lang } from '../navigation/types';
+
 export type Tone = 'ink' | 'red' | 'teal' | 'plum';
 export type Side = 'top' | 'right' | 'bottom' | 'left';
 
@@ -10,7 +12,7 @@ type Star = {
 	label: Side;
 };
 
-export type Constellation = { name: string; stars: Star[]; lines: string[][] };
+export type Constellation = { name: Record<Lang, string>; stars: Star[]; lines: string[][] };
 
 export const width = 1720;
 export const height = 1220;
@@ -27,7 +29,7 @@ export const tones: Record<Tone, string> = {
 
 export const constellations: Constellation[] = [
 	{
-		name: 'Orion',
+		name: { en: 'Orion', es: 'Orión' },
 		stars: [
 			{
 				name: 'betelgeuse',
@@ -58,7 +60,7 @@ export const constellations: Constellation[] = [
 		],
 	},
 	{
-		name: 'Ursa Major',
+		name: { en: 'Ursa Major', es: 'Osa Mayor' },
 		stars: [
 			{ name: 'dubhe', col: 27, row: 5, r: 12, tone: 'red', label: 'top' },
 			{
@@ -79,7 +81,7 @@ export const constellations: Constellation[] = [
 		lines: [['alkaid', 'mizar', 'alioth', 'megrez', 'dubhe', 'merak', 'phecda', 'megrez']],
 	},
 	{
-		name: 'Scorpius',
+		name: { en: 'Scorpius', es: 'Escorpio' },
 		stars: [
 			{ name: 'antares', col: 20, row: 8, r: 16, tone: 'red', label: 'top' },
 			{ name: 'shaula', col: 12, row: 16, r: 12, tone: 'teal', label: 'left' },
@@ -119,7 +121,7 @@ export const constellations: Constellation[] = [
 		],
 	},
 	{
-		name: 'Cassiopeia',
+		name: { en: 'Cassiopeia', es: 'Casiopea' },
 		stars: [
 			{ name: 'schedar', col: 25, row: 10, r: 12, tone: 'red', label: 'right' },
 			{ name: 'navi', col: 21, row: 7, r: 12, tone: 'teal', label: 'top' },

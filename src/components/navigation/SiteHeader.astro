@@ -5,7 +5,7 @@ import FloatingNav from './FloatingNav.astro';
 import LangToggle from './LangToggle.astro';
 import MobileMenu from './MobileMenu.astro';
 import NavLink from './NavLink.astro';
-import { defaultNav, type Lang, type LangHrefs, type NavItem } from './types';
+import { type Lang, type LangHrefs, type NavItem, navLinks, ui } from './types';
 
 type Props = {
 	links?: NavItem[];
@@ -16,13 +16,13 @@ type Props = {
 	class?: string;
 };
 
-const { links = defaultNav, current, lang = 'en', langHrefs, contact, class: className } = Astro.props;
+const { lang = 'en', links = navLinks[lang], current, langHrefs, contact, class: className } = Astro.props;
 ---
 
 <header class:list={['wrapper flex h-20 items-center justify-between', className]}>
 	<Wordmark href="/" />
 	<div class="flex items-center gap-md md:gap-2xl">
-		<nav aria-label="Main" class="hidden md:block">
+		<nav aria-label={ui[lang].main} class="hidden md:block">
 			<ul role="list" class="flex gap-xl">
 				{
 					links.map((link) => (
@@ -39,7 +39,7 @@ const { links = defaultNav, current, lang = 'en', langHrefs, contact, class: cla
 		<span class="size-12 md:hidden">
 			<IconButton
 				icon="menu"
-				label="Open menu"
+				label={ui[lang].openMenu}
 				data-menu-open="mobile-menu"
 				aria-haspopup="dialog"
 				class="fixed top-4 right-margin z-40"
