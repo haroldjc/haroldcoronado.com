@@ -1,20 +1,36 @@
 ---
-import PageTitle from '../components/content/PageTitle.astro';
-import SiteFooter from '../components/navigation/SiteFooter.astro';
+import { Image } from 'astro:assets';
+import silhouette from '../assets/404/silhouette.jpg';
+import SectionName from '../components/content/SectionName.astro';
 import SiteHeader from '../components/navigation/SiteHeader.astro';
 import TextLink from '../components/ui/TextLink.astro';
 import { contact } from '../data/home';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = ['this is not', 'the page', 'you were', 'looking for'];
 ---
 
 <BaseLayout title="Page not found — Harold Coronado" noindex>
-	<div data-hero data-theme="plum" class="lg:py-3.5">
+	<div data-hero data-theme="ink" class="flex min-h-svh flex-col overflow-x-clip lg:pt-3.5">
 		<SiteHeader contact={contact.links[0]} />
+		<main class="wrapper relative flex flex-1 flex-col pt-4xl xl:pb-section">
+			<div class="relative z-10 flex flex-col items-start gap-2xl pb-2xl xl:pb-0">
+				<SectionName label="error 404" />
+				<h1 class="text-headline">
+					{title.map((line) => <span class="block">{line}{' '}</span>)}
+				</h1>
+				<p class="max-w-164 text-body-lg">
+					The page you’re looking for moved, never existed, or I broke it. Either way, there’s nothing at this address. Let’s get you back on track.
+				</p>
+				<TextLink href="/">back home →</TextLink>
+			</div>
+			<Image
+				src={silhouette}
+				alt=""
+				widths={[640, 1120]}
+				sizes="(min-width: 80rem) 1120px, 100vw"
+				class="-mx-margin mt-auto aspect-4/5 w-[calc(100%+2*var(--layout-margin))] max-w-none object-cover object-right mix-blend-plus-lighter sm:aspect-auto xl:absolute xl:top-[calc(var(--space-4xl)-51px)] xl:-right-30 xl:m-0 xl:w-280"
+			/>
+		</main>
 	</div>
-	<main data-theme="paper" class="wrapper flex flex-col items-start gap-xl py-section">
-		<PageTitle title="page not found." />
-		<p class="max-w-150 text-body-lg text-primary">The page you’re looking for doesn’t exist or has moved.</p>
-		<TextLink href="/">back to the homepage →</TextLink>
-	</main>
-	<SiteFooter links={contact.links} size="compact" />
 </BaseLayout>

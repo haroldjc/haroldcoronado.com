@@ -229,7 +229,7 @@
 @keyframes overscroll {
   50%,
   to {
-    background-color: var(--overscroll-bottom, var(--color-bg-surface));
+    background-color: var(--overscroll-bottom, var(--overscroll-top, var(--color-bg-surface)));
   }
 }
 
