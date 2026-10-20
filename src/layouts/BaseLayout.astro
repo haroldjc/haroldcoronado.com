@@ -29,11 +29,18 @@ const { title, description, lang = 'en' } = Astro.props;
 				const key = 'lang-switch';
 				const homes = ['/', '/es/'];
 				const blocks = () => [...document.querySelectorAll('main > section, body > footer')];
-				const roll = () =>
+				const clear = () =>
+					document.querySelectorAll('[data-roll]').forEach((el) => {
+						el.style.removeProperty('view-transition-name');
+						el.style.removeProperty('view-transition-class');
+					});
+				const roll = (transition) => {
 					document.querySelectorAll('[data-roll]').forEach((el, i) => {
 						el.style.setProperty('view-transition-name', `roll-${i}`);
 						el.style.setProperty('view-transition-class', 'roll');
 					});
+					transition.finished.finally(clear);
+				};
 
 				const restore = () => {
 					const saved = sessionStorage.getItem(key);
@@ -58,14 +65,16 @@ const { title, description, lang = 'en' } = Astro.props;
 
 				addEventListener('pageswap', (event) => {
 					if (!event.viewTransition) return;
-					if (sessionStorage.getItem(key)) roll();
+					if (sessionStorage.getItem(key)) roll(event.viewTransition);
 					else event.viewTransition.skipTransition();
 				});
 
 				if ('onpagereveal' in window) {
 					addEventListener('pagereveal', (event) => {
-						if (restore()) roll();
-						else event.viewTransition?.skipTransition();
+						clear();
+						if (!event.viewTransition) restore();
+						else if (restore()) roll(event.viewTransition);
+						else event.viewTransition.skipTransition();
 					});
 				} else {
 					addEventListener('DOMContentLoaded', restore);

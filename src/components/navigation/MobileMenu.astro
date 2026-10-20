@@ -23,7 +23,7 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 	aria-label={ui[lang].menu}
 	tabindex="-1"
 	data-theme="ink"
-	class="mobile-menu fixed inset-0 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-md pb-margin text-primary focus:outline-none open:flex"
+	class="mobile-menu fixed inset-0 z-50 m-0 size-full max-h-none max-w-none flex-col justify-between bg-surface px-margin pt-md pb-margin text-primary focus:outline-none open:flex"
 >
 	<div class="flex flex-col gap-2xl">
 		<div class="flex items-center justify-between">
@@ -60,6 +60,7 @@ const { id = 'mobile-menu', lang = 'en', links = navLinks[lang], current, langHr
 	document.querySelectorAll<HTMLButtonElement>('[data-menu-open]').forEach((button) => {
 		const dialog = document.getElementById(button.dataset.menuOpen ?? '');
 		if (!(dialog instanceof HTMLDialogElement)) return;
+		document.body.append(dialog);
 		button.addEventListener('click', () => {
 			dialog.showModal();
 			dialog.focus();
