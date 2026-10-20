@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import sanity from '@sanity/astro';
 import tailwindcss from '@tailwindcss/vite';
 import { existsSync } from 'node:fs';
@@ -20,6 +21,10 @@ export default defineConfig({
 			studioRouterHistory: 'hash',
 		}),
 		react(),
+		sitemap({
+			filter: (page) => !/\/(studio|styleguide)\//.test(page),
+			i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
+		}),
 	],
 	fonts: [
 		{

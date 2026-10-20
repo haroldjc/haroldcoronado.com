@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /studio/
+
+Sitemap: https://haroldcoronado.com/sitemap-index.xml

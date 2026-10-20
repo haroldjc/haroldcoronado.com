@@ -15,7 +15,7 @@ const { headline, highlight, bio, words, fitTo, contact, lang } = Astro.props;
 		<SiteHeader contact={contact} lang={lang} />
 		<div class="wrapper flex flex-col gap-md pt-10 md:pt-[74px]">
 			<h1 data-roll class="text-headline">
-				{headline.map((line) => <span class="block">{line}</span>)}
+				{headline.map((line) => <span class="block">{line}{' '}</span>)}
 				<span class="block text-paper">{highlight}</span>
 			</h1>
 			<p class="max-w-150 text-body-lg xl:max-w-[min(600px,calc(49vw-var(--layout-margin)-2rem))]">{bio}</p>

@@ -30,7 +30,7 @@ const linkTones = ['bg-tonal-1', 'bg-tonal-2', 'bg-tonal-3', 'bg-tonal-4'];
 	<div data-size={size} class="site-footer-head wrapper flex flex-col">
 		<SectionName label={label} />
 		<h2 data-roll class:list={['-ml-[0.055em]', size === 'large' ? 'text-display' : 'text-headline']}>
-			{headline.map((line) => <span class="block">{line}</span>)}
+			{headline.map((line) => <span class="block">{line}{' '}</span>)}
 		</h2>
 	</div>
 	<div class="grid md:grid-cols-4">

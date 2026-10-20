@@ -15,7 +15,7 @@ const { label, headline, pillars, processTitle, stages, lanes } = Astro.props;
 			<div class="flex flex-col gap-lg">
 				<SectionName label={label} />
 				<h2 id="skills-title" data-roll class="text-headline text-accent">
-					{headline.map((line) => <span class="block">{line}</span>)}
+					{headline.map((line) => <span class="block">{line}{' '}</span>)}
 				</h2>
 			</div>
 			<div class="layout-grid gap-y-2xl">

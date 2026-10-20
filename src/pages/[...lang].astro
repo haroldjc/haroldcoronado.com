@@ -9,6 +9,7 @@ import Skills from '../components/sections/Skills.astro';
 import Work from '../components/sections/Work.astro';
 import * as en from '../data/home';
 import * as es from '../data/home-es';
+import { journal } from '../data/journal';
 import { getAnnouncement } from '../lib/announcement';
 
 export function getStaticPaths() {
@@ -16,16 +17,28 @@ export function getStaticPaths() {
 }
 
 const lang: Lang = Astro.params.lang === 'es' ? 'es' : 'en';
-const { about, contact, hero, skills, work } = lang === 'es' ? es : en;
+const { about, contact, hero, meta, skills, work } = lang === 'es' ? es : en;
+const person = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Harold Coronado',
+	url: new URL(homeHrefs[lang], Astro.site).href,
+	jobTitle: meta.jobTitle,
+	description: meta.description,
+	address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressCountry: 'PE' },
+	sameAs: contact.links.filter((link) => link.external).map((link) => link.href),
+};
 const announcement = await getAnnouncement();
 ---
 
-<BaseLayout title="Harold Coronado" description={hero.bio} lang={lang}>
+<BaseLayout title={meta.title} description={meta.description} lang={lang}>
 	<Fragment slot="head">
 		<link rel="alternate" hreflang="en" href={new URL(homeHrefs.en, Astro.site)} />
 		<link rel="alternate" hreflang="es" href={new URL(homeHrefs.es, Astro.site)} />
 		<link rel="alternate" hreflang="x-default" href={new URL(homeHrefs.en, Astro.site)} />
+		<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} />
 		<link rel="expect" href="#contact" blocking="render" />
+		<script type="application/ld+json" set:html={JSON.stringify(person)} />
 	</Fragment>
 	{announcement && <AnnouncementBanner message={announcement.message} link={announcement.link} lang={lang} />}
 	<main>

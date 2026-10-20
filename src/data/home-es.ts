@@ -1,5 +1,11 @@
 import * as en from './home';
 
+export const meta: typeof en.meta = {
+	title: 'Harold Coronado — Desarrollador full stack y diseñador',
+	description: 'Desarrollador full stack y diseñador en Lima, Perú, con más de 15 años creando productos de punta a punta, del prototipo a apps en producción.',
+	jobTitle: 'Desarrollador full stack y diseñador',
+};
+
 export const hero: typeof en.hero = {
 	headline: ['soy Harold.', 'programo.'],
 	highlight: 'y diseño.',

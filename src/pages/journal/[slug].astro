@@ -25,14 +25,28 @@ const { article, related } = Astro.props;
 const readTime = readingTime(article.words);
 const contents = headings(article.body);
 const url = new URL(articleHref(article.slug), Astro.site).href;
+const posting = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: article.title,
+	description: article.excerpt,
+	datePublished: article.publishedAt,
+	url,
+	image: new URL('/og.png', Astro.site).href,
+	inLanguage: 'en',
+	author: { '@type': 'Person', name: journal.author.name, url: new URL('/', Astro.site).href },
+};
 const share = {
 	linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
 	email: `mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(url)}`,
 };
 ---
 
-<BaseLayout title={`${article.title} — Harold Coronado`} description={article.excerpt}>
-	<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} slot="head" />
+<BaseLayout title={`${article.title} — Harold Coronado`} description={article.excerpt} type="article" publishedTime={article.publishedAt}>
+	<Fragment slot="head">
+		<link rel="alternate" type="application/rss+xml" title="Harold Coronado — Journal" href={journal.feed} />
+		<script type="application/ld+json" set:html={JSON.stringify(posting)} />
+	</Fragment>
 	<header data-hero data-theme="plum" class="pb-section lg:pt-3.5">
 		<SiteHeader contact={contact.links[0]} />
 		<div class="wrapper flex flex-col gap-3xl pt-4xl">

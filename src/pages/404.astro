@@ -1,0 +1,20 @@
+---
+import PageTitle from '../components/content/PageTitle.astro';
+import SiteFooter from '../components/navigation/SiteFooter.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import TextLink from '../components/ui/TextLink.astro';
+import { contact } from '../data/home';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found — Harold Coronado" noindex>
+	<div data-hero data-theme="plum" class="lg:py-3.5">
+		<SiteHeader contact={contact.links[0]} />
+	</div>
+	<main data-theme="paper" class="wrapper flex flex-col items-start gap-xl py-section">
+		<PageTitle title="page not found." />
+		<p class="max-w-150 text-body-lg text-primary">The page you’re looking for doesn’t exist or has moved.</p>
+		<TextLink href="/">back to the homepage →</TextLink>
+	</main>
+	<SiteFooter links={contact.links} size="compact" />
+</BaseLayout>

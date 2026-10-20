@@ -1,3 +1,9 @@
+export const meta = {
+	title: 'Harold Coronado — Full stack developer & designer',
+	description: 'Full stack developer and designer in Lima, Perú, with 15+ years of experience building products end to end, from prototype to deployed apps.',
+	jobTitle: 'Full stack developer and designer',
+};
+
 export const hero = {
 	headline: ['i’m Harold', 'i build stuff.'],
 	highlight: 'end to end.',
