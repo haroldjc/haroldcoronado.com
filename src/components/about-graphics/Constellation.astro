@@ -14,107 +14,143 @@ const bleed = { x: -4800, width: width + 9600 };
 const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 ---
 
-<div
-	data-constellation
-	role="img"
-	aria-label={`${ui[lang].constellations}: ${constellations.map((c) => c.name[lang]).join(', ')}`}
-	class:list={['relative mx-auto aspect-1720/1220 max-w-frame overflow-y-clip', className]}
->
-	<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible">
-		<defs>
-			<pattern id="constellation-grid" x={grid.x} y={grid.y} width={grid.gap} height={grid.gap} patternUnits="userSpaceOnUse">
-				<circle cx={grid.dot} cy={grid.dot} r={grid.dot} class="fill-(--color-border-subtle)" />
-			</pattern>
-		</defs>
-		<rect
-			x={bleed.x}
-			y={grid.y}
-			width={bleed.width}
-			height={(grid.rows - 1) * grid.gap + grid.dot * 2}
-			fill="url(#constellation-grid)"
-		/>
-	</svg>
-	<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible will-change-transform">
-		{
-			range(pool.holes).map((i) => {
-				const hole = first.holes[i];
-				return (
-					<circle
-						cx={hole?.cx ?? 0}
-						cy={hole?.cy ?? 0}
-						r={grid.dot * 2}
-						class="constellation-hole fill-(--color-bg-surface)"
-						style={hole ? undefined : 'opacity: 0'}
-					/>
-				);
-			})
-		}
-		{
-			range(pool.segments).map((i) => {
-				const segment = first.segments[i];
-				return (
-					<line
-						x2="1"
-						vector-effect="non-scaling-stroke"
-						class="constellation-line stroke-ink"
-						style={
-							segment
-								? `translate: ${segment.x}px ${segment.y}px; rotate: ${segment.angle}deg; scale: ${segment.length} 1`
-								: 'scale: 0 1; opacity: 0'
-						}
-					/>
-				);
-			})
-		}
-		{
-			range(pool.stars).map((i) => {
-				const star = first.stars[i];
-				return (
-					<circle
-						r="1"
-						class:list={['constellation-star', star?.fill]}
-						style={star ? `translate: ${star.cx}px ${star.cy}px; scale: ${star.r}` : 'scale: 0; opacity: 0'}
-					/>
-				);
-			})
-		}
-	</svg>
-	<ul class="text-label">
-		{
-			range(pool.stars).map((i) => {
-				const star = first.stars[i];
-				return (
-					<li
-						class="constellation-label absolute whitespace-nowrap"
-						style={
-							star
-								? `left: ${percent(star.labelX, width)}; top: ${percent(star.labelY, height)}; translate: ${star.labelOffset}`
-								: 'opacity: 0'
-						}
+<div data-constellation class:list={['relative mx-auto max-w-frame', className]}>
+	<div
+		role="img"
+		aria-label={`${ui[lang].constellations}: ${constellations.map((c) => c.name[lang]).join(', ')}`}
+		class="relative aspect-1720/1220 overflow-y-clip"
+	>
+		<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible">
+			<defs>
+				<pattern id="constellation-grid" x={grid.x} y={grid.y} width={grid.gap} height={grid.gap} patternUnits="userSpaceOnUse">
+					<circle cx={grid.dot} cy={grid.dot} r={grid.dot} class="fill-(--color-border-subtle)" />
+				</pattern>
+			</defs>
+			<rect
+				x={bleed.x}
+				y={grid.y}
+				width={bleed.width}
+				height={(grid.rows - 1) * grid.gap + grid.dot * 2}
+				fill="url(#constellation-grid)"
+			/>
+		</svg>
+		<svg viewBox={`0 0 ${width} ${height}`} class="absolute inset-0 size-full overflow-visible will-change-transform">
+			{
+				range(pool.holes).map((i) => {
+					const hole = first.holes[i];
+					return (
+						<circle
+							cx={hole?.cx ?? 0}
+							cy={hole?.cy ?? 0}
+							r={grid.dot * 2}
+							class="constellation-hole fill-(--color-bg-surface)"
+							style={hole ? undefined : 'opacity: 0'}
+						/>
+					);
+				})
+			}
+			{
+				range(pool.segments).map((i) => {
+					const segment = first.segments[i];
+					return (
+						<line
+							x2="1"
+							vector-effect="non-scaling-stroke"
+							class="constellation-line stroke-ink"
+							style={
+								segment
+									? `translate: ${segment.x}px ${segment.y}px; rotate: ${segment.angle}deg; scale: ${segment.length} 1`
+									: 'scale: 0 1; opacity: 0'
+							}
+						/>
+					);
+				})
+			}
+			{
+				range(pool.stars).map((i) => {
+					const star = first.stars[i];
+					return (
+						<circle
+							r="1"
+							class:list={['constellation-star', star?.fill]}
+							style={star ? `translate: ${star.cx}px ${star.cy}px; scale: ${star.r}` : 'scale: 0; opacity: 0'}
+						/>
+					);
+				})
+			}
+		</svg>
+		<ul class="text-label">
+			{
+				range(pool.stars).map((i) => {
+					const star = first.stars[i];
+					return (
+						<li
+							class="constellation-label absolute whitespace-nowrap"
+							style={
+								star
+									? `left: ${percent(star.labelX, width)}; top: ${percent(star.labelY, height)}; translate: ${star.labelOffset}`
+									: 'opacity: 0'
+							}
+						>
+							{star?.name}
+						</li>
+					);
+				})
+			}
+		</ul>
+	</div>
+	{
+		layouts.length > 1 && (
+			<div class="wrapper flex items-end justify-between md:absolute md:inset-x-0 md:bottom-[calc(52/1220*100%)]">
+				<p class="constellation-name-box flex h-16 flex-col justify-center gap-0.5 overflow-clip border border-default bg-surface px-5 whitespace-nowrap">
+					<span class="text-label text-secondary">{ui[lang].constellation}</span>
+					<span data-constellation-name class="constellation-name text-info font-bold text-primary">
+						{constellations[0].name[lang]}
+					</span>
+				</p>
+				<div class="flex">
+					<button
+						type="button"
+						data-constellation-step="-1"
+						aria-label={ui[lang].previousConstellation}
+						class="constellation-arrow -mr-px"
 					>
-						{star?.name}
-					</li>
-				);
-			})
-		}
-	</ul>
+						<span aria-hidden="true">←</span>
+					</button>
+					<button type="button" data-constellation-step="1" aria-label={ui[lang].nextConstellation} class="constellation-arrow">
+						<span aria-hidden="true">→</span>
+					</button>
+				</div>
+			</div>
+		)
+	}
 </div>
 
 <script>
-	import { height, layouts, percent, tones, width } from './constellations';
+	import type { Lang } from '../navigation/types';
+	import { constellations, height, layouts, percent, tones, width } from './constellations';
 
 	const root = document.querySelector<HTMLElement>('[data-constellation]');
 	const HOLD = 6000;
 	const FADE = 500;
 	const MOVE = 1400;
+	const RESIZE = 450;
 
-	if (root && layouts.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+	if (root && layouts.length > 1) {
+		const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const lang = (document.documentElement.lang === 'es' ? 'es' : 'en') satisfies Lang;
 		const stars = [...root.querySelectorAll<SVGCircleElement>('.constellation-star')];
 		const lines = [...root.querySelectorAll<SVGLineElement>('.constellation-line')];
 		const holes = [...root.querySelectorAll<SVGCircleElement>('.constellation-hole')];
 		const labels = [...root.querySelectorAll<HTMLElement>('.constellation-label')];
+		const name = root.querySelector<HTMLElement>('[data-constellation-name]');
+		const box = name?.parentElement;
+		box?.addEventListener('transitionend', (event) => {
+			if (event.target === box && event.propertyName === 'width') box.style.width = '';
+		});
+		const steps = [...root.querySelectorAll<HTMLButtonElement>('[data-constellation-step]')];
 		const fills = Object.values(tones);
-		const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+		const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, reduced ? 0 : ms));
 		const jump = (el: SVGElement | HTMLElement, update: () => void) => {
 			el.style.transition = 'none';
 			update();
@@ -123,22 +159,38 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 		};
 
 		let current = 0;
+		let target = 0;
 		let timer = 0;
 		let visible = false;
 		let busy = false;
 
 		const schedule = () => {
 			clearTimeout(timer);
-			if (visible && !document.hidden && !busy) timer = window.setTimeout(advance, HOLD);
+			if (!reduced && visible && !document.hidden && !busy) timer = window.setTimeout(() => go(1), HOLD);
 		};
 
-		const advance = async () => {
-			busy = true;
-			const next = layouts[(current + 1) % layouts.length];
+		const show = async (index: number) => {
+			const next = layouts[index];
 
 			for (const el of [...labels, ...holes, ...lines]) el.style.opacity = '0';
+			if (name) {
+				name.style.transitionDelay = '';
+				name.style.opacity = '0';
+			}
 			await wait(FADE);
 
+			if (name && box) {
+				const from = box.offsetWidth;
+				box.style.width = '';
+				name.textContent = constellations[index].name[lang];
+				const to = box.offsetWidth;
+				if (from !== to && !reduced) {
+					jump(box, () => (box.style.width = `${from}px`));
+					box.style.width = `${to}px`;
+					name.style.transitionDelay = `${RESIZE}ms`;
+				}
+				name.style.opacity = '1';
+			}
 			stars.forEach((el, i) => {
 				const star = next.stars[i];
 				if (!star) {
@@ -192,10 +244,33 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 				el.style.opacity = star ? '1' : '0';
 			});
 
-			current = (current + 1) % layouts.length;
+			current = index;
+		};
+
+		const go = async (step: number) => {
+			target = (target + step + layouts.length) % layouts.length;
+			clearTimeout(timer);
+			if (busy) return;
+			busy = true;
+			while (current !== target) await show(target);
 			busy = false;
 			schedule();
 		};
+
+		const manual = (step: number) => {
+			name?.setAttribute('aria-live', 'polite');
+			go(step);
+		};
+
+		for (const button of steps) button.addEventListener('click', () => manual(Number(button.dataset.constellationStep)));
+
+		document.addEventListener('keydown', (event) => {
+			if (!visible || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+			if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+			if ((event.target as HTMLElement).closest('input, textarea, select, [contenteditable], dialog[open]')) return;
+			event.preventDefault();
+			manual(event.key === 'ArrowLeft' ? -1 : 1);
+		});
 
 		new IntersectionObserver(
 			([entry]) => {
@@ -225,7 +300,36 @@ const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 	}
 
 	.constellation-label,
-	.constellation-hole {
+	.constellation-hole,
+	.constellation-name {
 		transition: opacity 500ms ease-out;
+	}
+
+	.constellation-name-box {
+		transition: width 450ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.constellation-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 4rem;
+		height: 4rem;
+		border: 1px solid var(--color-border-default);
+		background-color: var(--color-bg-surface);
+		color: var(--color-text-primary);
+		font-size: 1.5rem;
+		font-weight: 500;
+		line-height: 1;
+		transition:
+			background-color 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			color 450ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	@media (hover: hover) {
+		.constellation-arrow:hover {
+			background-color: var(--color-bg-inverse);
+			color: var(--color-text-on-inverse);
+		}
 	}
 </style>

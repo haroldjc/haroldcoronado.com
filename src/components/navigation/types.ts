@@ -30,6 +30,9 @@ export const ui = {
 		closeMenu: 'Close menu',
 		announcement: 'Announcement',
 		constellations: 'Constellations',
+		constellation: 'constellation',
+		previousConstellation: 'Previous constellation',
+		nextConstellation: 'Next constellation',
 	},
 	es: {
 		main: 'Principal',
@@ -39,5 +42,8 @@ export const ui = {
 		closeMenu: 'Cerrar menú',
 		announcement: 'Anuncio',
 		constellations: 'Constelaciones',
+		constellation: 'constelación',
+		previousConstellation: 'Constelación anterior',
+		nextConstellation: 'Siguiente constelación',
 	},
 } satisfies Record<Lang, Record<string, string>>;
